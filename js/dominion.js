@@ -878,5 +878,49 @@
         });
     });
 
+  /****
+   ****
+   ****  Clipboard button
+   ****
+   ****/
+
+  $(function ()
+    {
+      $('button.clipboard').tooltip(
+        {
+          'placement': 'bottom',
+          'container': 'body'
+        })
+        .click(function ()
+          {
+            $(this).tooltip('hide');
+
+            var url = $(this).attr('clipboard-url');
+            var slug = $(this).attr('clipboard-slug');
+
+            $.ajax({
+              url: url,
+              context: this,
+              data: { slug: slug },
+              beforeSend: function()
+                {
+                  // Add loading gif
+                },
+              success: function (data)
+                {
+                  console.log(data);
+                },
+              error: function(error)
+                {
+                  console.log(error);
+                },
+              complete: function()
+                {
+                  // Remove loading gif
+                }
+              });
+          });
+    });
+
 })(window.jQuery);
 
