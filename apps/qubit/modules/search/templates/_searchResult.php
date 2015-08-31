@@ -29,6 +29,16 @@
 
     <p class="title"><?php echo link_to(render_title(get_search_i18n($doc, 'title', array('allowEmpty' => false, 'culture' => $culture))), array('module' => 'informationobject', 'slug' => $doc['slug'])) ?></p>
 
+    <?php if (false) : ?>
+      <button class="clipboard selected" clipboard-url="<?php echo url_for(array('module' => 'user', 'action' => 'clipboardToggleSlug')) ?>" clipboard-slug="<?php echo $doc['slug'] ?>" data-toggle="tooltip" data-title="<?php echo __('Remove from clipboard') ?>">
+        <?php echo __('Remove from clipboard') ?>
+      </button>
+    <?php else: ?>
+      <button class="clipboard" clipboard-url="<?php echo url_for(array('module' => 'user', 'action' => 'clipboardToggleSlug')) ?>" clipboard-slug="<?php echo $doc['slug'] ?>" data-toggle="tooltip" data-title="<?php echo __('Add to clipboard') ?>">
+        <?php echo __('Add to clipboard') ?>
+      </button>
+    <?php endif; ?>
+
     <ul class="result-details">
 
       <?php if ('1' == sfConfig::get('app_inherit_code_informationobject', 1)

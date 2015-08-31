@@ -133,3 +133,55 @@ input.c-btn {
   background-color: @white;
   color: @black;
 }
+
+/*
+ * Clipboard
+ */
+
+button.clipboard {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 20px;
+  width: 20px;
+  border-radius: 5px;
+  .hide-text();
+  outline: none;
+
+  &:before {
+    font-family: 'FontAwesome';
+    font-weight: normal;
+    font-style: normal;
+    text-align: center;
+    color: @grayLight;
+    font-size: 20px;
+    position: absolute;
+    top: 10px;
+    left: 2px;
+    content: "\f0c6";
+  }
+
+  &:hover {
+    background-color: @blue;
+
+    &:before {
+      color: @white;
+    }
+  }
+
+  &.selected {
+    background-color: @blue;
+
+    &:before {
+      color: @white;
+    }
+
+    &:hover {
+      background-color: transparent;
+
+      &:before {
+        color: @grayLight;
+      }
+    }
+  }
+}
