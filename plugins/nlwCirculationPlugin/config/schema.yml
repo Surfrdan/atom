@@ -1,0 +1,16 @@
+# Database Schema
+
+propel:
+  _attributes:      { package: plugins.nlwCirculationPlugin.lib.model }
+  
+  requests:
+    id: { type: integer, required: true, primaryKey: true, foreignTable: object, foreignReference: id, onDelete: cascade, inheritanceKey: true }
+    request_type_id: { type: integer, foreignTable: request_types, foreignReference: id, onDelete: setnull }
+    patron_barcode: varchar(255) 
+    collection_date: date
+	expiry_date: date
+	patron_notes: clob(65532)
+	staff_notes: clob(65532)
+	status: { type: integer, foreignTable: request_statuses }
+	created_at:
+    updated_at:
