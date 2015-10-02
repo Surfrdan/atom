@@ -1,0 +1,3 @@
+QubitRequestType:
+  user: { type: User }
+  staff: { type: Staff }

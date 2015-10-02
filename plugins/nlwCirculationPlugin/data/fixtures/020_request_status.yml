@@ -1,0 +1,5 @@
+QubitRequestStatus:
+  current: { status: Current }
+  awaitingCollection: { status: Awaiting Collection }
+  issuedToReader: { status: Issued to Reader }
+  returnedToStacks: { status: Returnbed to Stacks }
