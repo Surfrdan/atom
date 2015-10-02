@@ -17,6 +17,7 @@
  */
 class nlwCirculationPluginRequestAction extends sfAction
 {
+  
   public function execute($request)
   {
     $user = $this->getUser();
@@ -41,4 +42,5 @@ class nlwCirculationPluginRequestAction extends sfAction
     $this->redirect(array('module' => 'informationobject', 'slug' => $slug, 'cart' => 'added'));
     */
   }
+  
 }

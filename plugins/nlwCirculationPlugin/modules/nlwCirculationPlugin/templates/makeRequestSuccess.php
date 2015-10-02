@@ -9,5 +9,5 @@
 <?php slot('content') ?>
 
 <?php echo $sf_request->getParameter('shib_user'); ?>
-
+<p>Done</p>
 <?php end_slot() ?>

@@ -17,6 +17,7 @@
  */
 class nlwCirculationPluginUpdateRequestAction extends sfAction
 {
+  
   public function execute($request)
   {
     $user = $this->getUser();

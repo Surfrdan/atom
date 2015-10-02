@@ -20,25 +20,36 @@ class nlwCirculationPluginMakeRequestAction extends sfAction
   public function execute($request)
   {
     $user = $this->getUser();
-    /*
-    $cart = $user->getAttribute('cart_contents', NULL);
-    if (empty($cart)) {
-        $cart = array();
-    }
-    */
     $path = $request->getPathInfo();
     $pieces = explode("/", $path, 3);
-    $this->slug = $pieces[1];
+    $slug = $request->getParameter('slug');
+    
     
     $criteria = new Criteria;
-    $criteria->add(QubitObject::ID, $request->getParameter('id'));
+    $criteria->add(QubitSlug::SLUG, $slug);
+    $criteria->addJoin(QubitSlug::OBJECT_ID, QubitObject::ID);
     $this->resource = QubitObject::get($criteria)->__get(0);
-    /*
-    if (!in_array($slug, $cart)) {
-        $cart[] = $pieces[1];
-    }
-    $user->setAttribute('cart_contents', $cart);
-    $this->redirect(array('module' => 'informationobject', 'slug' => $slug, 'cart' => 'added'));
-    */
+    
+    
+    $this->qubitRequest = new QubitRequest();
+    $this->qubitRequest->setObjectId($this->resource->id);
+    $this->qubitRequest->setRequestTypeId('0');
+    $this->qubitRequest->setStatus('1');
+    $this->qubitRequest->setExpiryDate(date("d-m-Y",strtotime("+1 week")));
+    $this->qubitRequest->setPatronBarcode($request->getParameter('shib_user'));
+    $this->qubitRequest->setCollectionDate('01-01-2016');
+    $this->qubitRequest->setPatronNotes($request->getParameter('notes'));
+    $this->qubitRequest->setMaterial($request->getParameter('material'));
+    $this->redirect(array($resource, 'module' => 'nlwCirculationPlugin', 'action' => 'updateRequest'));
   }
+  
+  
+  /*
+  public function executeUpdate($request) {
+    
+    $this->qubitRequest = new QubitRequest();
+    $this->qubitRequest->set
+  }
+  */
+  
 }

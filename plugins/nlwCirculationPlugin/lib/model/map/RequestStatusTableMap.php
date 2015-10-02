@@ -34,7 +34,7 @@ class RequestStatusTableMap extends TableMap {
 		$this->setPhpName('requestStatus');
 		$this->setClassname('QubitRequestStatus');
 		$this->setPackage('plugins.nlwCirculationPlugin.lib.model');
-		$this->setUseIdGenerator(false);
+		$this->setUseIdGenerator(true);
 		// columns
 		$this->addPrimaryKey('ID', 'id', 'INTEGER', true, null, null);
 		$this->addColumn('STATUS', 'status', 'VARCHAR', false, 255, null);

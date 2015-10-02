@@ -34,7 +34,7 @@ class RequestTypeTableMap extends TableMap {
 		$this->setPhpName('requestType');
 		$this->setClassname('QubitRequestType');
 		$this->setPackage('plugins.nlwCirculationPlugin.lib.model');
-		$this->setUseIdGenerator(false);
+		$this->setUseIdGenerator(true);
 		// columns
 		$this->addPrimaryKey('ID', 'id', 'INTEGER', true, null, null);
 		$this->addColumn('TYPE', 'type', 'VARCHAR', false, 255, null);

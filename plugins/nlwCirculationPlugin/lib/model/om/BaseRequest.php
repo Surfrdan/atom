@@ -8,6 +8,7 @@ abstract class BaseRequest implements ArrayAccess
     TABLE_NAME = 'request',
 
     ID = 'request.ID',
+    OBJECT_ID = 'request.OBJECT_ID',
     REQUEST_TYPE_ID = 'request.REQUEST_TYPE_ID',
     PATRON_BARCODE = 'request.PATRON_BARCODE',
     COLLECTION_DATE = 'request.COLLECTION_DATE',
@@ -22,6 +23,7 @@ abstract class BaseRequest implements ArrayAccess
   public static function addSelectColumns(Criteria $criteria)
   {
     $criteria->addSelectColumn(QubitRequest::ID);
+    $criteria->addSelectColumn(QubitRequest::OBJECT_ID);
     $criteria->addSelectColumn(QubitRequest::REQUEST_TYPE_ID);
     $criteria->addSelectColumn(QubitRequest::PATRON_BARCODE);
     $criteria->addSelectColumn(QubitRequest::COLLECTION_DATE);
@@ -47,6 +49,7 @@ abstract class BaseRequest implements ArrayAccess
   {
     $keys = array();
     $keys['id'] = $row[0];
+    $keys['objectId'] = $row[1];
 
     $key = serialize($keys);
     if (!isset(self::$requests[$key]))
@@ -93,10 +96,11 @@ abstract class BaseRequest implements ArrayAccess
     return self::get($criteria, $options)->__get(0, array('defaultValue' => null));
   }
 
-  public static function getById($id, array $options = array())
+  public static function getByIdAndObjectId($id, $objectId, array $options = array())
   {
     $criteria = new Criteria;
     $criteria->add(QubitRequest::ID, $id);
+    $criteria->add(QubitRequest::OBJECT_ID, $objectId);
 
     if (1 == count($query = self::get($criteria, $options)))
     {
@@ -156,6 +160,7 @@ abstract class BaseRequest implements ArrayAccess
 
       $criteria = new Criteria;
       $criteria->add(QubitRequest::ID, $this->id);
+      $criteria->add(QubitRequest::OBJECT_ID, $this->objectId);
 
       call_user_func(array(get_class($this), 'addSelectColumns'), $criteria);
 
@@ -521,6 +526,7 @@ abstract class BaseRequest implements ArrayAccess
 
     $criteria = new Criteria;
     $criteria->add(QubitRequest::ID, $this->id);
+    $criteria->add(QubitRequest::OBJECT_ID, $this->objectId);
 
     self::doDelete($criteria, $connection);
 
@@ -530,28 +536,39 @@ abstract class BaseRequest implements ArrayAccess
   }
 
 	/**
-	 * Returns the primary key for this object (row).
-	 * @return     int
+	 * Returns the composite primary key for this object.
+	 * The array elements will be in same order as specified in XML.
+	 * @return     array
 	 */
 	public function getPrimaryKey()
 	{
-		return $this->getid();
+		$pks = array();
+
+		$pks[0] = $this->getid();
+
+		$pks[1] = $this->getobjectId();
+
+		return $pks;
 	}
 
 	/**
-	 * Generic method to set the primary key (id column).
+	 * Set the [composite] primary key.
 	 *
-	 * @param      int $key Primary key.
+	 * @param      array $keys The elements of the composite key (order must match the order in XML file).
 	 * @return     void
 	 */
-	public function setPrimaryKey($key)
+	public function setPrimaryKey($keys)
 	{
-		$this->setid($key);
+
+		$this->setid($keys[0]);
+
+		$this->setobjectId($keys[1]);
+
 	}
 
   public static function addJoinobjectCriteria(Criteria $criteria)
   {
-    $criteria->addJoin(QubitRequest::ID, QubitObject::ID);
+    $criteria->addJoin(QubitRequest::OBJECT_ID, QubitObject::ID);
 
     return $criteria;
   }
