@@ -21,26 +21,29 @@ class nlwCirculationPluginRequestAction extends sfAction
   public function execute($request)
   {
     $user = $this->getUser();
-    /*
-    $cart = $user->getAttribute('cart_contents', NULL);
-    if (empty($cart)) {
-        $cart = array();
-    }
-    */
     $path = $request->getPathInfo();
     $pieces = explode("/", $path, 3);
-    $this->slug = $pieces[1];
+    $this->slug = $request->getParameter('slug');
+    
     
     $criteria = new Criteria;
-    $criteria->add(QubitObject::ID, $request->getParameter('id'));
+    $criteria->add(QubitSlug::SLUG, $this->slug);
+    $criteria->addJoin(QubitSlug::OBJECT_ID, QubitObject::ID);
     $this->resource = QubitObject::get($criteria)->__get(0);
-    /*
-    if (!in_array($slug, $cart)) {
-        $cart[] = $pieces[1];
+    
+    $this->titles = array($this->resource->__toString());
+    $noparent = false;
+    $object = $this->resource;
+    while ($noparent == false) {
+      if (isset($object->parent) && $object->parent->__toString() != '') {
+        $object = $object->parent;
+        $this->titles[] = ($object->__toString());
+      } else {
+        $noparent = true;
+      }
     }
-    $user->setAttribute('cart_contents', $cart);
-    $this->redirect(array('module' => 'informationobject', 'slug' => $slug, 'cart' => 'added'));
-    */
+    $this->titles = array_reverse($this->titles); 
+    
   }
   
 }
