@@ -24,7 +24,6 @@ class nlwCirculationPluginMakeRequestAction extends sfAction
     $pieces = explode("/", $path, 3);
     $slug = $request->getParameter('slug');
     
-    
     $criteria = new Criteria;
     $criteria->add(QubitSlug::SLUG, $slug);
     $criteria->addJoin(QubitSlug::OBJECT_ID, QubitObject::ID);
@@ -34,7 +33,7 @@ class nlwCirculationPluginMakeRequestAction extends sfAction
     $this->qubitRequest->setRequestTypeId('1');
     $this->qubitRequest->setStatus('1');
     $this->qubitRequest->setExpiryDate(date("Y-m-d",strtotime("+1 week")));
-    $this->qubitRequest->setPatronBarcode($request->getParameter('shib_user'));
+    $this->qubitRequest->setPatronBarcode($_SERVER['employeeNumber']);
     $this->qubitRequest->setCollectionDate($request->getParameter('collection_date'));
     $this->qubitRequest->setPatronNotes($request->getParameter('notes'));
     $this->qubitRequest->setMaterial($request->getParameter('material'));
