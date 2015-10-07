@@ -34,7 +34,7 @@ class nlwCirculationPluginMakeRequestAction extends sfAction
     $this->qubitRequest->setRequestTypeId('1');
     $this->qubitRequest->setStatus('1');
     $this->qubitRequest->setExpiryDate(date("Y-m-d",strtotime("+1 week")));
-    $this->qubitRequest->setPatronBarcode($request->getParameter('shib_user'));
+    $this->qubitRequest->setPatronBarcode($_SERVER['REMOTE_USER']);
     $this->qubitRequest->setCollectionDate($request->getParameter('collection_date'));
     $this->qubitRequest->setPatronNotes($request->getParameter('notes'));
     $this->qubitRequest->setMaterial($request->getParameter('material'));
