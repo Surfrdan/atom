@@ -29,7 +29,6 @@
     <label for="material"><?php echo __('Material') ?></label>
     <input type="text" readonly id="material" value="<?php echo implode(" ",$sf_data->getRaw('titles'));  ?>">
     <input type="hidden" id="slug" name="slug" value="<?php echo $slug; ?>" />
-    <input type="hidden" id="shib_user" name="shib_user" value="<?php echo $_SERVER['REMOTE_USER']; ?>" />
     <label for="collection_date"><?php echo __('Collection Date') ?></label>
     <input type="date" id="collection_date" name="collection_date" />
     <label for="notes"><?php echo __('Notes') ?></label>
