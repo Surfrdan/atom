@@ -30,8 +30,13 @@ class nlwCirculationPluginRequestAction extends sfAction
     $criteria->add(QubitSlug::SLUG, $this->slug);
     $criteria->addJoin(QubitSlug::OBJECT_ID, QubitObject::ID);
     $this->resource = QubitObject::get($criteria)->__get(0);
+ 		
+		$pathArray = $request->getPathInfoArray();
+		if ($pathArray['employeeNumber']) {
+			$this->getResponse()->setCookie('employeeNumber', $pathArray['employeeNumber']);
+		}   
     
-    $this->titles = array($this->resource->__toString());
+		$this->titles = array($this->resource->__toString());
     $noparent = false;
     $object = $this->resource;
     while ($noparent == false) {
