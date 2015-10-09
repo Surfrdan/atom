@@ -40,7 +40,7 @@ class nlwCirculationPluginMakeRequestAction extends sfAction
     $this->qubitRequest->setPatronNotes($request->getParameter('notes'));
     $this->qubitRequest->setMaterial($request->getParameter('material'));
 	  $this->qubitRequest->save();
-    $this->redirect(array($resource, 'module' => 'nlwCirculationPlugin', 'action' => 'updateRequest'));
+    $this->redirect(array($resource, 'module' => 'informationobject', 'slug' => $slug));
   }
   
   
