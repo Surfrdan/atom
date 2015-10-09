@@ -9,12 +9,14 @@ abstract class BaseRequestStatus implements ArrayAccess
 
     ID = 'request_status.ID',
     STATUS = 'request_status.STATUS',
+    ORDER = 'request_status.ORDER',
     SERIAL_NUMBER = 'request_status.SERIAL_NUMBER';
 
   public static function addSelectColumns(Criteria $criteria)
   {
     $criteria->addSelectColumn(QubitRequestStatus::ID);
     $criteria->addSelectColumn(QubitRequestStatus::STATUS);
+    $criteria->addSelectColumn(QubitRequestStatus::ORDER);
     $criteria->addSelectColumn(QubitRequestStatus::SERIAL_NUMBER);
 
     return $criteria;

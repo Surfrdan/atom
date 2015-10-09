@@ -38,6 +38,7 @@ class RequestStatusTableMap extends TableMap {
 		// columns
 		$this->addPrimaryKey('ID', 'id', 'INTEGER', true, null, null);
 		$this->addColumn('STATUS', 'status', 'VARCHAR', false, 255, null);
+		$this->addColumn('ORDER', 'order', 'INTEGER', false, null, null);
 		$this->addColumn('SERIAL_NUMBER', 'serialNumber', 'INTEGER', true, null, 0);
 		// validators
 	} // initialize()

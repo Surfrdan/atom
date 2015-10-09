@@ -14,6 +14,8 @@ abstract class BaseRequest implements ArrayAccess
     COLLECTION_DATE = 'request.COLLECTION_DATE',
     EXPIRY_DATE = 'request.EXPIRY_DATE',
     PATRON_NOTES = 'request.PATRON_NOTES',
+    PATRON_TYPE = 'request.PATRON_TYPE',
+    PATRON_NAME = 'request.PATRON_NAME',
     STAFF_NOTES = 'request.STAFF_NOTES',
     STATUS = 'request.STATUS',
     CREATED_AT = 'request.CREATED_AT',
@@ -29,6 +31,8 @@ abstract class BaseRequest implements ArrayAccess
     $criteria->addSelectColumn(QubitRequest::COLLECTION_DATE);
     $criteria->addSelectColumn(QubitRequest::EXPIRY_DATE);
     $criteria->addSelectColumn(QubitRequest::PATRON_NOTES);
+    $criteria->addSelectColumn(QubitRequest::PATRON_TYPE);
+    $criteria->addSelectColumn(QubitRequest::PATRON_NAME);
     $criteria->addSelectColumn(QubitRequest::STAFF_NOTES);
     $criteria->addSelectColumn(QubitRequest::STATUS);
     $criteria->addSelectColumn(QubitRequest::CREATED_AT);

@@ -12,6 +12,7 @@ propel:
     _attributes: { idMethod: native }
     id: { type: integer, required: true, primaryKey: true,  onDelete: cascade, autoIncrement: true }
     status: varchar(255)
+    order: { type:integer }
 
   request:
     _attributes: { idMethod: native }
@@ -22,6 +23,8 @@ propel:
     collection_date: date
     expiry_date: date
     patron_notes: longvarchar
+    patron_type: varchar(255)
+    patron_name: varchar(255)
     staff_notes: longvarchar
     status: { type: integer, foreignTable: request_status, foreignReference: id }
     created_at:
