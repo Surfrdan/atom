@@ -35,7 +35,11 @@
   <?php } ?>
 
 </script>
-<form action="<?php echo url_for(array($resource, 'module' => 'nlwCirculationPlugin', 'action' => 'makeRequest', 'slug' => $slug)) ?>" method="post">
+<?php if($staff) { ?>  
+  <form action="<?php echo url_for(array('module' => 'nlwCirculationPlugin', 'action' => 'updateRequest')) ?>" method="post">
+  <?php } else { ?>
+  <form action="<?php echo url_for(array($resource, 'module' => 'nlwCirculationPlugin', 'action' => 'makeRequest', 'slug' => $slug)) ?>" method="post">
+  <?php } ?>
   <fieldset id="requestInformation">
     <legend><?php echo __('Request Information') ?></legend>
     <?php if($staff) { ?> 
@@ -47,6 +51,12 @@
     <input type="date" id="expiry_date" name="expiry_date" value="<?php if($staff) { echo $qubitRequest->getExpiryDate(); } ?>" />
     <label for="patron_barcode"><?php echo __('Patron Barcode') ?></label>
     <input type="text" id="patron_barcode" name="patron_barcode" value="<?php if($staff) { echo $qubitRequest->getPatronBarcode(); } ?>" readonly />
+    <label for="status"><?php echo __('Status') ?></label>
+    <select id="status" name="status"  >
+      <?php foreach ($statuses as $s) {?>
+      <option value="<?php echo $s->getId(); ?>"><?php echo $s->getStatus(); ?></option>
+      <?php } ?>
+    </select>
     <?php } ?>
     
     <label for="material"><?php echo __('Material') ?></label>
@@ -60,8 +70,12 @@
     <?php if($staff) { ?> 
     <label for="staff_notes"><?php echo __('Staff Notes') ?></label>
     <input type="text" id="staff_notes" name="staff_notes" value="<?php if($staff) { echo $qubitRequest->getStaffNotes(); } ?>" />
-    <?php } ?>
     <input type="submit" value ="<?php echo __('Update Request'); ?>"/>
+    <input type="button" value ="<?php echo __('Print Request'); ?>" onClick="location.href='<?php echo url_for(array('module' => 'nlwCirculationPlugin', 'action' => 'printRequest', 'request_id' => $qubitRequest->getId())) ?>';" />
+    <?php }  else {?>
+    <input type="submit" value ="<?php echo __('Request'); ?>"/>
+    <?php } ?>
+    
   </fieldset>
   
 </form>

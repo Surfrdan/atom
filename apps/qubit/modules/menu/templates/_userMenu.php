@@ -60,6 +60,7 @@
         <ul>
           <li><?php echo link_to(__('Profile'), array($sf_user->user, 'module' => 'user')) ?></li>
           <li><?php echo link_to(__('Log out'), array('module' => 'user', 'action' => 'logout')) ?></li>
+          <li><?php echo link_to(__('Requests'), array('module' => 'nlwCirculationPlugin', 'action' => 'listRequests')) ?></li>
         </ul>
 
       </div>

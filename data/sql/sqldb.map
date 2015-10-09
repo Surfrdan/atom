@@ -2,3 +2,4 @@
 lib.model.schema.sql=propel
 plugins.qbAclPlugin.lib.model.schema.sql=propel
 plugins.qtAccessionPlugin.lib.model.schema.sql=propel
+plugins.nlwCirculationPlugin.lib.model.schema.sql=propel

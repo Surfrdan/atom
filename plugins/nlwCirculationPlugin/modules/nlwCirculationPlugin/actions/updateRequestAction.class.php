@@ -20,16 +20,20 @@ class nlwCirculationPluginUpdateRequestAction extends sfAction
   
   public function execute($request)
   {
-    $user = $this->getUser();
-    $path = $request->getPathInfo();
-    $pieces = explode("/", $path, 3);
-    $this->slug = $pieces[1];
-    
     $criteria = new Criteria;
-    $criteria->add(QubitObject::ID, $request->getParameter('id'));
-    $this->resource = QubitObject::get($criteria)->__get(0);
+    $criteria->add(QubitRequest::ID, $request->getParameter('request_id'));
     
+    $user = $this->getUser();
     
+    $this->qubitRequest = QubitRequest::get($criteria)->__get(0);
+    $this->qubitRequest->setStatus($request->getParameter('status'));
+    $this->qubitRequest->setExpiryDate($request->getParameter('expiry_date'));
+    $this->qubitRequest->setPatronBarcode($request->getParameter('patron_barcode'));
+    $this->qubitRequest->setCollectionDate($request->getParameter('collection_date'));
+    $this->qubitRequest->setPatronNotes($request->getParameter('patron_notes'));
+    $this->qubitRequest->setStaffNotes($request->getParameter('staff_notes'));
+    $this->qubitRequest->save();
+    $this->redirect(array($resource, 'module' => 'nlwCirculationPlugin', 'action' => 'listRequests'));
   }
   
   

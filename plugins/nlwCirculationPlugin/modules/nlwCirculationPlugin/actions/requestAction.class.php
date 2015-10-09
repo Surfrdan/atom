@@ -33,9 +33,15 @@ class nlwCirculationPluginRequestAction extends sfAction
  		
 		$pathArray = $request->getPathInfoArray();
 		if ($pathArray['employeeNumber']) {
-			$this->getResponse()->setCookie('employeeNumber', $pathArray['employeeNumber']);
+			$user->setAttribute('employeeNumber', $pathArray['employeeNumber']);
+		}
+		if ($pathArray['employeeType']) {
+			$user->setAttribute('employeeType', $pathArray['employeeType']);
 		}   
-    
+		if ($pathArray['givenName']) {
+			$user->setAttribute('givenName', $pathArray['givenName']);
+		}
+		
 		$this->titles = array($this->resource->__toString());
     $noparent = false;
     $object = $this->resource;

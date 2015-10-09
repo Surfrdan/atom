@@ -29,6 +29,7 @@ CREATE TABLE `request_status`
 (
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`status` VARCHAR(255),
+	`order` INTEGER,
 	`serial_number` INTEGER default 0 NOT NULL,
 	PRIMARY KEY (`id`)
 )Engine=InnoDB;
@@ -49,6 +50,8 @@ CREATE TABLE `request`
 	`collection_date` DATE,
 	`expiry_date` DATE,
 	`patron_notes` TEXT,
+	`patron_type` VARCHAR(255),
+	`patron_name` VARCHAR(255),
 	`staff_notes` TEXT,
 	`status` INTEGER,
 	`created_at` DATETIME  NOT NULL,

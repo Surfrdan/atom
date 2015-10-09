@@ -43,6 +43,7 @@ class nlwCirculationPluginEditRequestAction extends sfAction
       $archiveCriteria->addJoin(QubitSlug::OBJECT_ID, QubitObject::ID);
     }
     
+    $this->statuses = QubitRequestStatus::getAll();
     $this->resource = QubitInformationObject::get($archiveCriteria)->__get(0);
     
     $this->titles = array($this->resource->__toString());
