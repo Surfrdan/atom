@@ -6,11 +6,11 @@
   <h1><?php echo __('List Requests'); ?></h1>
 <?php end_slot() ?>
 
-
+<script>
+</script>
 
 <?php slot('content') ?>
-  <fieldset id="requestInformation">
-    <table style="width:100%">
+    <table id="requestTable" name="requestTable" class="tablesorter">
       <thead>
         <tr>
           <th><?php echo __('Patron') ?></th>

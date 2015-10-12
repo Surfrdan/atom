@@ -19,6 +19,10 @@ class nlwCirculationPluginListRequestsAction extends sfAction
 {
   public function execute($request)
   {
+		sfContext::getInstance()->response->addStylesheet('/plugins/nlwCirculationPlugin/css/blue/style.css');
+    sfContext::getInstance()->response->addJavaScript('/plugins/nlwCirculationPlugin/js/jquery.tablesorter.js');
+    sfContext::getInstance()->response->addJavaScript('/plugins/nlwCirculationPlugin/js/request.table.js');
+
     $user = $this->getUser();
     if(!$user->hasGroup(99)) {
       $this->redirect('@homepage');

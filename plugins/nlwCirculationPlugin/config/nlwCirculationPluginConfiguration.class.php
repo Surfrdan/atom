@@ -25,7 +25,6 @@ class nlwCirculationPluginConfiguration extends sfPluginConfiguration
 
   public function contextLoadFactories(sfEvent $event)
   {
-    //$this->create_menu();
     sfContext::getInstance()->response->addStylesheet('/plugins/nlwCirculationPlugin/css/request.css');
   }
 
@@ -40,29 +39,6 @@ class nlwCirculationPluginConfiguration extends sfPluginConfiguration
     }
   }    
 
-  /*
-  public function create_menu() 
-  {
-    $criteria = new Criteria;
-    $criteria->add(QubitMenu::NAME, 'nlwCirculationUserSettings');
-    $menu = QubitMenu::getOne($criteria);
-    if (!isset($menu)) {
-      error_log('create_menu');
-      $criteria = new Criteria;
-      $criteria->add(QubitMenu::NAME, 'users');
-      $this->userAclMenu = null;
-      if (null !== $parent = QubitMenu::getOne($criteria))
-      {
-        $menu = new QubitMenu;
-        $menu['parentId'] = $parent->getId();
-        $menu['label'] = 'Circulation Settings';
-        $menu['name'] = 'nlwCirculationUserSettings';
-        $menu['path'] = 'nlwCirculationPlugin/indexUserSettings?slug=%currentSlug%';
-        $menu->save();
-      }
-    }
-  }
-  */
   /**
    * @see sfPluginConfiguration
    */
