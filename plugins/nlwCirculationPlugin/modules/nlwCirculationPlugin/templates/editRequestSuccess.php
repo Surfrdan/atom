@@ -1,4 +1,4 @@
-<?php decorate_with('layout_2col'); ?>
+<?php decorate_with('layout_1col'); ?>
 
 <?php slot('sidebar') ?>
 
@@ -42,6 +42,10 @@
   <?php } ?>
   <fieldset id="requestInformation">
     <legend><?php echo __('Request Information') ?></legend>
+		<?php if($almaStaff) { ?> 
+    	<input type="hidden" id="requester_barcode" name="requester_barcode" value="<?php echo $user->getAttribute('employeeNumber'); ?>" />
+		<?php } ?> 
+
     <?php if($staff) { ?> 
     <label for="request_id"><?php echo __('Request ID') ?></label>
     <input type="text" id="request_id" name="request_id" value="<?php if($staff) { echo $qubitRequest->getId(); } ?>" readonly />
@@ -50,7 +54,7 @@
     <label for="expiry_date"><?php echo __('Expiry Date') ?></label>
     <input type="date" id="expiry_date" name="expiry_date" value="<?php if($staff) { echo $qubitRequest->getExpiryDate(); } ?>" />
     <label for="patron_barcode"><?php echo __('Patron Barcode') ?></label>
-    <input type="text" id="patron_barcode" name="patron_barcode" value="<?php if($staff) { echo $qubitRequest->getPatronBarcode(); } ?>" readonly />
+    <input type="text" id="patron_barcode" name="patron_barcode" value="<?php if($staff) { echo $qubitRequest->getPatronBarcode(); } ?>" />
     <label for="status"><?php echo __('Status') ?></label>
     <select id="status" name="status"  >
       <?php foreach ($statuses as $s) {?>

@@ -34,7 +34,6 @@ class nlwCirculationPluginEditRequestAction extends sfAction
         
         $archiveCriteria = new Criteria;
         $archiveCriteria->add(QubitObject::ID, $this->qubitRequest->getObjectId());
-        $slug = $this->resource->slug;
       }
     } else {
       $slug = $request->getParameter('slug');
@@ -42,7 +41,14 @@ class nlwCirculationPluginEditRequestAction extends sfAction
       $archiveCriteria->add(QubitSlug::SLUG, $slug);
       $archiveCriteria->addJoin(QubitSlug::OBJECT_ID, QubitObject::ID);
     }
-    
+   
+		$this->almaStaff = false;
+		if ($request->getParameter('employeeType')) {
+			if ($request->getParameter('employeeType') == 'USER') {
+				$this->almaStaff = true;
+			}
+		}
+ 
     $this->statuses = QubitRequestStatus::getAll();
     $this->resource = QubitInformationObject::get($archiveCriteria)->__get(0);
     

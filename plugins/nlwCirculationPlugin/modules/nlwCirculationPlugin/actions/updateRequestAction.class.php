@@ -33,8 +33,10 @@ class nlwCirculationPluginUpdateRequestAction extends sfAction
     $this->qubitRequest->setPatronNotes($request->getParameter('patron_notes'));
     $this->qubitRequest->setStaffNotes($request->getParameter('staff_notes'));
     $this->qubitRequest->save();
-    $this->redirect(array($resource, 'module' => 'nlwCirculationPlugin', 'action' => 'listRequests'));
-  }
+    if ($user->hasGroup(99)) {
+			$this->redirect(array($resource, 'module' => 'nlwCirculationPlugin', 'action' => 'listRequests'));
+  	}
+	}
   
   
   /*

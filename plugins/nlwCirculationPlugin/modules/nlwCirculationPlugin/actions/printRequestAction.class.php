@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Access to Memory (AtoM).  If not, see <http://www.gnu.org/licenses/>.
  */
+
 class nlwCirculationPluginPrintRequestAction extends sfAction
 {
   public function execute($request)
@@ -30,35 +31,43 @@ class nlwCirculationPluginPrintRequestAction extends sfAction
         
         $archiveCriteria = new Criteria;
         $archiveCriteria->add(QubitObject::ID, $this->qubitRequest->getObjectId());
-        $slug = $this->resource->slug;
         $this->resource = QubitInformationObject::get($archiveCriteria)->__get(0);
-        
+         
+        $physCriteria = new Criteria;
+        $physCriteria->add(QubitObject::ID, $this->qubitRequest->getObjectId());
+        $this->phys = QubitPhysicalObject::get($physCriteria)->__get(0);
+
         $requestSlip = array_pad(array(), 59, '');
         $requestSlip[2] = $this->qubitRequest->getPatronBarcode();
         $requestSlip[3] = $this->qubitRequest->getPatronType();
         $requestSlip[4] = $this->qubitRequest->getPatronName();
-        $requestSlip[5] = "ARCH/MSS (GB0210)";
+        $requestSlip[5] = $this->phys->getLocation();
         $requestSlip[8] = $this->qubitRequest->getPatronNotes();
         $requestSlip[10] = date("H:i:s",strtotime($this->qubitRequest->getCreatedAt()));
         $requestSlip[12] = date("d-M-Y",strtotime($this->qubitRequest->getCreatedAt()));
-        $requestSlip[13] = $this->resource->getPropertyByName('Control number')->getvalue();
+        $requestSlip[13] = $request->getParameter('request_id');
         $requestSlip[14] = 'PrintyddSlips';
         $requestSlip[15] = 'DE/SOUTH';
-        $requestSlip[17] = 'TODO: Request';
+        $requestSlip[17] = $request->getParameter('request_id');
         $requestSlip[21] = $this->resource->getPropertyByName('Control number')->getvalue();
-        $requestSlip[22] = 'TODO: Shelf Number';
+        $requestSlip[22] = $this->phys->getName();
         $requestSlip[26] = date("d-M-Y",strtotime($this->qubitRequest->getCollectionDate()));
         $requestSlip[27] = date("H:i:s",strtotime($this->qubitRequest->getCollectionDate()));
         $requestSlip[41] = $this->resource->getTitle();
         $requestSlip[42] = "TODO: Creator";
-        $requestSlip[44] = "TODO: Date";
+        $requestSlip[44] = date("H:i:s",strtotime($this->qubitRequest->getCollectionDate()));
         $requestSlip[48] = "TODO: Edition";
         $requestSlip[52] = $this->resource->getCollectionRoot()->getTitle();
         $requestSlip[57] = "TODO: Other Location";
-        $requestSlip[58] = "TODO: Other Shelf Numbers";
-        var_dump($requestSlip);
-        //var_dump($this->resource);
-      }
+        $requestSlip[58] = "TODO: Other Shelf Numbers \\n";
+        $printerSlip = implode("\n", $requestSlip);
+				$ipp = new PrintIPP();
+				$ipp->setHost("slipserv.llgc.org.uk");
+        $ipp->setPrinterURI("/printers/AV007");
+		    $ipp->setLog('/tmp/printipp','file',1);
+        $ipp->setData($printerSlip);
+        $ipp->printJob();
+			}
     }
     
       /*

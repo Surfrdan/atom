@@ -47,6 +47,7 @@ CREATE TABLE `request`
 	`object_id` INTEGER  NOT NULL,
 	`request_type_id` INTEGER,
 	`patron_barcode` VARCHAR(255),
+	`requester_barcode` VARCHAR(255),
 	`collection_date` DATE,
 	`expiry_date` DATE,
 	`patron_notes` TEXT,

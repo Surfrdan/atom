@@ -40,6 +40,7 @@ class RequestTableMap extends TableMap {
 		$this->addForeignPrimaryKey('OBJECT_ID', 'objectId', 'INTEGER' , 'object', 'ID', true, null, null);
 		$this->addForeignKey('REQUEST_TYPE_ID', 'requestTypeId', 'INTEGER', 'request_type', 'ID', false, null, null);
 		$this->addColumn('PATRON_BARCODE', 'patronBarcode', 'VARCHAR', false, 255, null);
+		$this->addColumn('REQUESTER_BARCODE', 'requesterBarcode', 'VARCHAR', false, 255, null);
 		$this->addColumn('COLLECTION_DATE', 'collectionDate', 'DATE', false, null, null);
 		$this->addColumn('EXPIRY_DATE', 'expiryDate', 'DATE', false, null, null);
 		$this->addColumn('PATRON_NOTES', 'patronNotes', 'LONGVARCHAR', false, null, null);

@@ -30,8 +30,9 @@ class nlwCirculationPluginRequestAction extends sfAction
     $criteria->add(QubitSlug::SLUG, $this->slug);
     $criteria->addJoin(QubitSlug::OBJECT_ID, QubitObject::ID);
     $this->resource = QubitObject::get($criteria)->__get(0);
- 		
+	 		
 		$pathArray = $request->getPathInfoArray();
+		var_dump($pathArray);
 		if ($pathArray['employeeNumber']) {
 			$user->setAttribute('employeeNumber', $pathArray['employeeNumber']);
 		}
@@ -39,7 +40,7 @@ class nlwCirculationPluginRequestAction extends sfAction
 			$user->setAttribute('employeeType', $pathArray['employeeType']);
 		}   
 		if ($pathArray['givenName']) {
-			$user->setAttribute('givenName', $pathArray['givenName']);
+			$user->setAttribute('employeeName', $pathArray['givenName'] . ' ' .$pathArray['sn']);
 		}
 		
 		$this->titles = array($this->resource->__toString());

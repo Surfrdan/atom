@@ -1,0 +1,3 @@
+autoload:
+  vendor_phpprintipp_lib:
+    path: %SF_PLUGINS_DIR%/nlwCirculationPlugin/lib/vendor/phpprintipp-0.83/php_classes

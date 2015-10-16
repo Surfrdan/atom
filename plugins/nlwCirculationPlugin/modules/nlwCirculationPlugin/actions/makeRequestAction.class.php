@@ -35,12 +35,12 @@ class nlwCirculationPluginMakeRequestAction extends sfAction
     $this->qubitRequest->setExpiryDate(date("Y-m-d",strtotime("+1 week")));
     $this->qubitRequest->setPatronBarcode($user->getAttribute('employeeNumber'));
     $this->qubitRequest->setPatronType($user->getAttribute('employeeType'));
-    $this->qubitRequest->setPatronName($user->getAttribute('givenName'));
+    $this->qubitRequest->setPatronName($user->getAttribute('employeeName'));
     $this->qubitRequest->setCollectionDate($request->getParameter('collection_date'));
     $this->qubitRequest->setPatronNotes($request->getParameter('notes'));
     $this->qubitRequest->setMaterial($request->getParameter('material'));
 	  $this->qubitRequest->save();
-    $this->redirect(array($resource, 'module' => 'informationobject', 'slug' => $slug));
+    //$this->redirect(array($resource, 'module' => 'informationobject', 'slug' => $slug));
   }
   
   

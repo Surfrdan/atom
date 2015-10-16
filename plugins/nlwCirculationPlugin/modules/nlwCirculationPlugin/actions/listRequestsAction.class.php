@@ -27,9 +27,19 @@ class nlwCirculationPluginListRequestsAction extends sfAction
     if(!$user->hasGroup(99)) {
       $this->redirect('@homepage');
     }
-    
+    if ($request->getPostParameter('request_statuses')) {
+			$this->request_statuses = $request->getPostParameter('request_statuses');
+		} else {
+			$this->request_statuses = array(1,2,3);
+		}
+		
+		$criteria = new Criteria;
+		foreach ($this->request_statuses as $request_status) {
+    	$criteria->addOr(QubitRequest::STATUS, $request_status);
+		}
+
     $path = $request->getPathInfo();
-    $this->qubitRequests = QubitRequest::getAll();
+    $this->qubitRequests = QubitRequest::get($criteria);
   }
   
 }

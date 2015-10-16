@@ -1,4 +1,4 @@
-<?php decorate_with('layout_2col'); ?>
+<?php decorate_with('layout_1col'); ?>
 
 <?php slot('sidebar') ?>
 
