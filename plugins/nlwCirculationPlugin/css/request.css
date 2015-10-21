@@ -50,3 +50,8 @@ div.request-button-non-default {
   background: none;
   margin-right: 4em;
 }
+.checkbox-grid li {
+    display: block;
+    float: left;
+    width: 20%;
+}

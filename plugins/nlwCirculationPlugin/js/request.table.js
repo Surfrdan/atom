@@ -1,6 +1,7 @@
-jQuery(document).ready(function() 
-    { 
-        jQuery("#requestTable").tablesorter();
-    } 
-); 
+jQuery(document).ready(function() { 
+	jQuery("#requestTable").tablesorter({
+		widgets: ["zebra"]
+	});
+
+}); 
 

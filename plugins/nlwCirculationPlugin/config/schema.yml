@@ -26,6 +26,8 @@ propel:
     patron_notes: longvarchar
     patron_type: varchar(255)
     patron_name: varchar(255)
+    item_title: varchar(255)
+    collection_title: varchar(255)
     staff_notes: longvarchar
     status: { type: integer, foreignTable: request_status, foreignReference: id }
     created_at:

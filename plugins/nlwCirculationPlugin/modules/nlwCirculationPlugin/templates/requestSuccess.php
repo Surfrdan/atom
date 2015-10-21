@@ -33,6 +33,9 @@
     <input type="date" id="collection_date" name="collection_date" />
     <label for="notes"><?php echo __('Notes') ?></label>
     <input type="text" id="notes" name="notes" />
+    <label for="expiry_date"><?php echo __('Expiry Date') ?></label>
+    <input type="date" id="expiry_date" name="expiry_date" readonly value="<?php echo date("Y-m-d",strtotime("+1 week")); ?>" />
+ 
     <input type="submit" value ="<?php echo __('Submit Request'); ?>"/>
   </fieldset>
   

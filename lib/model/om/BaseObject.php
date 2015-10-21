@@ -185,11 +185,6 @@ abstract class BaseObject implements ArrayAccess
       }
     }
 
-    if ('requests' == $name)
-    {
-      return true;
-    }
-
     if ('aclPermissions' == $name)
     {
       return true;
@@ -255,6 +250,11 @@ abstract class BaseObject implements ArrayAccess
       return true;
     }
 
+    if ('requests' == $name)
+    {
+      return true;
+    }
+
     throw new sfException("Unknown record property \"$name\" on \"".get_class($this).'"');
   }
 
@@ -294,23 +294,6 @@ abstract class BaseObject implements ArrayAccess
 
         $offset++;
       }
-    }
-
-    if ('requests' == $name)
-    {
-      if (!isset($this->refFkValues['requests']))
-      {
-        if (!isset($this->id))
-        {
-          $this->refFkValues['requests'] = QubitQuery::create();
-        }
-        else
-        {
-          $this->refFkValues['requests'] = self::getrequestsById($this->id, array('self' => $this) + $options);
-        }
-      }
-
-      return $this->refFkValues['requests'];
     }
 
     if ('aclPermissions' == $name)
@@ -532,6 +515,23 @@ abstract class BaseObject implements ArrayAccess
       }
 
       return $this->refFkValues['statuss'];
+    }
+
+    if ('requests' == $name)
+    {
+      if (!isset($this->refFkValues['requests']))
+      {
+        if (!isset($this->id))
+        {
+          $this->refFkValues['requests'] = QubitQuery::create();
+        }
+        else
+        {
+          $this->refFkValues['requests'] = self::getrequestsById($this->id, array('self' => $this) + $options);
+        }
+      }
+
+      return $this->refFkValues['requests'];
     }
 
     throw new sfException("Unknown record property \"$name\" on \"".get_class($this).'"');
@@ -847,26 +847,6 @@ abstract class BaseObject implements ArrayAccess
 		$this->setid($key);
 	}
 
-  public static function addrequestsCriteriaById(Criteria $criteria, $id)
-  {
-    $criteria->add(QubitRequest::OBJECT_ID, $id);
-
-    return $criteria;
-  }
-
-  public static function getrequestsById($id, array $options = array())
-  {
-    $criteria = new Criteria;
-    self::addrequestsCriteriaById($criteria, $id);
-
-    return QubitRequest::get($criteria, $options);
-  }
-
-  public function addrequestsCriteria(Criteria $criteria)
-  {
-    return self::addrequestsCriteriaById($criteria, $this->id);
-  }
-
   public static function addaclPermissionsCriteriaById(Criteria $criteria, $id)
   {
     $criteria->add(QubitAclPermission::OBJECT_ID, $id);
@@ -1125,6 +1105,26 @@ abstract class BaseObject implements ArrayAccess
   public function addstatussCriteria(Criteria $criteria)
   {
     return self::addstatussCriteriaById($criteria, $this->id);
+  }
+
+  public static function addrequestsCriteriaById(Criteria $criteria, $id)
+  {
+    $criteria->add(QubitRequest::OBJECT_ID, $id);
+
+    return $criteria;
+  }
+
+  public static function getrequestsById($id, array $options = array())
+  {
+    $criteria = new Criteria;
+    self::addrequestsCriteriaById($criteria, $id);
+
+    return QubitRequest::get($criteria, $options);
+  }
+
+  public function addrequestsCriteria(Criteria $criteria)
+  {
+    return self::addrequestsCriteriaById($criteria, $this->id);
   }
 
   public function __call($name, $args)

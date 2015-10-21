@@ -32,7 +32,6 @@ class nlwCirculationPluginRequestAction extends sfAction
     $this->resource = QubitObject::get($criteria)->__get(0);
 	 		
 		$pathArray = $request->getPathInfoArray();
-		var_dump($pathArray);
 		if ($pathArray['employeeNumber']) {
 			$user->setAttribute('employeeNumber', $pathArray['employeeNumber']);
 		}

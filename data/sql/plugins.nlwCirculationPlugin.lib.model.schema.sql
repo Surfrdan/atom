@@ -53,6 +53,8 @@ CREATE TABLE `request`
 	`patron_notes` TEXT,
 	`patron_type` VARCHAR(255),
 	`patron_name` VARCHAR(255),
+	`item_title` VARCHAR(255),
+	`collection_title` VARCHAR(255),
 	`staff_notes` TEXT,
 	`status` INTEGER,
 	`created_at` DATETIME  NOT NULL,

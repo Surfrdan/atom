@@ -4,7 +4,7 @@
 // accident to production servers. Feel free to remove this, extend it or make
 // something more sophisticated.
 
-$allowedIps = array('127.0.0.1', '::1');
+$allowedIps = array('127.0.0.1', '::1', '193.61.220.62');
 if (false !== $envIp = getenv('ATOM_DEBUG_IP'))
 {
   $allowedIps = array_merge($allowedIps, array_filter(explode(',', $envIp)));
