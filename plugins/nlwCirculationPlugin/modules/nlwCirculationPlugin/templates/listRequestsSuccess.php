@@ -35,7 +35,6 @@
 		<input type="submit">
   </fieldset>
 </form>
-
     <table id="requestTable" name="requestTable" class="tablesorter">
       <thead>
         <tr>
@@ -60,7 +59,7 @@
         <td><?php echo $r->getObjectId(); ?></td>
         <td><?php echo $r->getCollectionDate(); ?></td>
         <td><?php echo $r->getExpiryDate(); ?></td>
-        <td><?php echo $r->getStatus(); ?></td>
+        <td><?php echo $statuses[$r->getStatus()]; ?></td>
         <td><?php echo link_to(__('View'), array('module' => 'nlwCirculationPlugin', 'action' => 'editRequest', 'request_id' => $r->getId())) ?></td>
       </tr>
       <?php endforeach; ?>

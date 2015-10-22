@@ -24,7 +24,8 @@ class nlwCirculationPluginEditRequestAction extends sfAction
 
     $staff = false;
     
-    if($user->hasGroup(99)) {
+    //if($user->hasGroup(99)) {
+    if($user->isAuthenticated()) {
       $this->staff = true;
       if($request->getParameter('request_id')) {
         $requestId = $request->getParameter('request_id');

@@ -2,5 +2,5 @@ QubitRequestStatus:
   current: { status: Current, order: 1  }
   awaitingCollection: { status: Awaiting Collection, order: 2 }
   issuedToReader: { status: Issued to Reader, order: 3 }
-  returnedToStacks: { status: Returnbed to Stacks, order: 4 }
+  returnedToStacks: { status: Returned to Stacks, order: 4 }
   cancelled: { status: Cancelled, order: 5 }

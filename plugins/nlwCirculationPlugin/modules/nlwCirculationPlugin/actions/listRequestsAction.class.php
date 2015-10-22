@@ -39,6 +39,11 @@ class nlwCirculationPluginListRequestsAction extends sfAction
     	$criteria->addOr(QubitRequest::STATUS, $request_status);
 		}
 
+		$this->statuses = array();
+		foreach (QubitRequestStatus::getAll() as $s) {
+			$this->statuses[$s->getId()] = $s->getStatus(); 
+		}
+
     $path = $request->getPathInfo();
     $this->qubitRequests = QubitRequest::get($criteria);
   }

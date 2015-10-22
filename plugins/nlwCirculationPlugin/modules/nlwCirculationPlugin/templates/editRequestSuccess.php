@@ -58,7 +58,7 @@
     <label for="status"><?php echo __('Status') ?></label>
     <select id="status" name="status"  >
       <?php foreach ($statuses as $s) {?>
-      <option value="<?php echo $s->getId(); ?>"><?php echo $s->getStatus(); ?></option>
+      <option value="<?php echo $s->getId(); ?>" <?php if($s->getId() == $qubitRequest->getStatus()) { echo "selected"; }?>><?php echo $s->getStatus(); ?></option>
       <?php } ?>
     </select>
     <?php } ?>
