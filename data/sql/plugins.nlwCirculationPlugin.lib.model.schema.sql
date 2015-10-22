@@ -54,6 +54,8 @@ CREATE TABLE `request`
 	`patron_type` VARCHAR(255),
 	`patron_name` VARCHAR(255),
 	`item_title` VARCHAR(255),
+	`item_date` VARCHAR(250),
+	`item_creator` VARCHAR(255),
 	`collection_title` VARCHAR(255),
 	`staff_notes` TEXT,
 	`status` INTEGER,

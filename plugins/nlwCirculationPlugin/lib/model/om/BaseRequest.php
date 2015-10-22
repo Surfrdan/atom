@@ -18,6 +18,8 @@ abstract class BaseRequest implements ArrayAccess
     PATRON_TYPE = 'request.PATRON_TYPE',
     PATRON_NAME = 'request.PATRON_NAME',
     ITEM_TITLE = 'request.ITEM_TITLE',
+    ITEM_DATE = 'request.ITEM_DATE',
+    ITEM_CREATOR = 'request.ITEM_CREATOR',
     COLLECTION_TITLE = 'request.COLLECTION_TITLE',
     STAFF_NOTES = 'request.STAFF_NOTES',
     STATUS = 'request.STATUS',
@@ -38,6 +40,8 @@ abstract class BaseRequest implements ArrayAccess
     $criteria->addSelectColumn(QubitRequest::PATRON_TYPE);
     $criteria->addSelectColumn(QubitRequest::PATRON_NAME);
     $criteria->addSelectColumn(QubitRequest::ITEM_TITLE);
+    $criteria->addSelectColumn(QubitRequest::ITEM_DATE);
+    $criteria->addSelectColumn(QubitRequest::ITEM_CREATOR);
     $criteria->addSelectColumn(QubitRequest::COLLECTION_TITLE);
     $criteria->addSelectColumn(QubitRequest::STAFF_NOTES);
     $criteria->addSelectColumn(QubitRequest::STATUS);

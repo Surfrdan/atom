@@ -23,12 +23,30 @@ class nlwCirculationPluginMakeRequestAction extends sfAction
     $path = $request->getPathInfo();
     $pieces = explode("/", $path, 3);
     $slug = $request->getParameter('slug');
-    
+   
     $criteria = new Criteria;
     $criteria->add(QubitSlug::SLUG, $slug);
     $criteria->addJoin(QubitSlug::OBJECT_ID, QubitObject::ID);
     $this->resource = QubitObject::get($criteria)->__get(0);
-    $this->qubitRequest = new QubitRequest();
+		$this->creator = $this->resource->getCollectionRoot()->getCreators()->__get(0); 
+		$this->event = $this->resource->getCreationEvents()->__get(0);
+		/* 
+    $criteria = new Criteria;
+    $criteria->addJoin(QubitActor::ID, QubitEvent::ACTOR_ID);
+    $criteria->add(QubitEvent::OBJECT_ID, $this->id);
+
+    if (isset($options['eventTypeId'])) {
+      $criteria->add(QubitEvent::TYPE_ID, $options['eventTypeId']);
+    }
+
+    if (isset($options['cultureFallback']) && true === $options['cultureFallback']) {
+      $criteria->addAscendingOrderByColumn('authorized_form_of_name');
+      $criteria = QubitCultureFallback::addFallbackCriteria($criteria, 'QubitActor', $options);
+    }
+    $this->actors = QubitActor::get($criteria);
+		*/
+
+		$this->qubitRequest = new QubitRequest();
     $this->qubitRequest->setObjectId($this->resource->id);
     $this->qubitRequest->setRequestTypeId('1');
     $this->qubitRequest->setStatus('1');
@@ -39,6 +57,8 @@ class nlwCirculationPluginMakeRequestAction extends sfAction
     $this->qubitRequest->setCollectionDate($request->getParameter('collection_date'));
     $this->qubitRequest->setPatronNotes($request->getParameter('notes'));
     $this->qubitRequest->setItemTitle($this->resource->getTitle());
+		$this->qubitRequest->setItemDate($this->event->getDate());
+		$this->qubitRequest->setItemCreator($this->creator->getAuthorizedFormOfName());
     $this->qubitRequest->setCollectionTitle($this->resource->getCollectionRoot()->getTitle());
 	  $this->qubitRequest->save();
     //$this->redirect(array($resource, 'module' => 'informationobject', 'slug' => $slug));

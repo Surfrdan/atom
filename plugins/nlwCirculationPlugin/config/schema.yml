@@ -27,6 +27,8 @@ propel:
     patron_type: varchar(255)
     patron_name: varchar(255)
     item_title: varchar(255)
+    item_date: varchar(250)
+    item_creator: varchar(255)
     collection_title: varchar(255)
     staff_notes: longvarchar
     status: { type: integer, foreignTable: request_status, foreignReference: id }

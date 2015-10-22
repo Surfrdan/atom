@@ -47,6 +47,8 @@ class RequestTableMap extends TableMap {
 		$this->addColumn('PATRON_TYPE', 'patronType', 'VARCHAR', false, 255, null);
 		$this->addColumn('PATRON_NAME', 'patronName', 'VARCHAR', false, 255, null);
 		$this->addColumn('ITEM_TITLE', 'itemTitle', 'VARCHAR', false, 255, null);
+		$this->addColumn('ITEM_DATE', 'itemDate', 'VARCHAR', false, 250, null);
+		$this->addColumn('ITEM_CREATOR', 'itemCreator', 'VARCHAR', false, 255, null);
 		$this->addColumn('COLLECTION_TITLE', 'collectionTitle', 'VARCHAR', false, 255, null);
 		$this->addColumn('STAFF_NOTES', 'staffNotes', 'LONGVARCHAR', false, null, null);
 		$this->addForeignKey('STATUS', 'status', 'INTEGER', 'request_status', 'ID', false, null, null);
