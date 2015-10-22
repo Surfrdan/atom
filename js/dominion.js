@@ -142,6 +142,8 @@
 
       $facet.on('click', '.facet-header a', function (e)
         {
+          e.preventDefault();
+
           $(e.target).parents('.facet').toggleClass('open');
           $(e.target).attr('aria-expanded', function (index, attr) {
             return attr == 'false' ? 'true' : 'false';
@@ -153,12 +155,11 @@
         {
           return 0 < $(element).find('li').length;
         }).addClass('open').find('.facet-header a').attr('aria-expanded', 'true');
-    });
 
-    $(document).ready(function () {
-        $('.lod-filter [type=radio]').change(function (ev) {
-            var link = ev.target.getAttribute('data-link');
-            document.location.replace(link);
+      $('.lod-filter [type=radio]').change(function (e)
+        {
+          var link = e.target.getAttribute('data-link');
+          document.location.replace(link);
         });
     });
 
@@ -781,7 +782,7 @@
 
             // Modify subqueryField value
             $inlineSearch.find('#subqueryField')
-              .val($this.text());
+              .val($this.data('subquery-field-value'));
           })
         .on('keypress', 'input', function(e)
           {
@@ -879,4 +880,3 @@
     });
 
 })(window.jQuery);
-

@@ -409,7 +409,7 @@ div#content > table.table {
   .facet-header a  {
     text-decoration: none;
     display: block;
-    padding: 4px 4px 6px 6px;
+    padding: 4px 30px 6px 6px;
     color: @gray;
 
     &:hover {
@@ -424,6 +424,8 @@ div#content > table.table {
       font-variant: normal;
       position: absolute;
       right: 8px;
+      top: 50%;
+      transform: translate(0, -50%);
       content: "\f107";
       font-family: "FontAwesome";
       color: @gray;
@@ -495,6 +497,17 @@ div#content > table.table {
     right: 5px;
   }
 
+}
+
+.lod-filter {
+  display: block;
+  padding: 2px 6px;
+  label {
+    margin: 0;
+    &:first-child {
+      margin-bottom: 4px;
+    }
+  }
 }
 
 // Date picker in facets
@@ -1084,9 +1097,10 @@ section .vcard:last-child > .field:last-child > div {
   &.has-preview {
 
     .search-result-preview {
+      float: left;
       display: inline-block;
       width: 17.8%;
-      margin-right: 10px;
+      margin-right: 2.2%;
       vertical-align: top;
       text-align: center;
       min-height: 120px;
@@ -1110,11 +1124,16 @@ section .vcard:last-child > .field:last-child > div {
     }
 
     .search-result-description {
-      width: 77%;
+      float: left;
+      width: 80%;
       display: inline-block;
       vertical-align: top;
     }
 
+  }
+
+  .search-result-description {
+    position: relative;
   }
 
   // Title
@@ -1132,6 +1151,7 @@ section .vcard:last-child > .field:last-child > div {
   .title {
     font-size: @baseFontSize * 1.25; // Cancel #content p
     margin-bottom: 0 !important;
+    margin-right: 25px !important;
     .text-overflow();
   }
 
@@ -1200,7 +1220,7 @@ section .vcard:last-child > .field:last-child > div {
 
 .header-options {
   .clearfix();
-  margin-bottom: @baseLineHeight / 2;
+  margin-bottom: @baseLineHeight / 4;
 }
 
 // Form
@@ -1736,3 +1756,17 @@ body.login #content {
   border: 1px dashed #FFD700;
 }
 
+// Print preview bar
+
+#preview-message {
+  background: #eee;
+  display: block;
+  padding: 5px;
+  text-align: center;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+
+  a {
+    float: right;
+  }
+}

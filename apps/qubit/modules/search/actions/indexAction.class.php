@@ -80,7 +80,12 @@ class SearchIndexAction extends DefaultBrowseAction
       'collection' =>
         array('type'   => 'term',
               'field'  => 'partOf.id',
-              'size'   => 10));
+              'size'   => 10),
+      'toplevel' =>
+        array('type'   => 'query',
+              'field' => array('parentId' => QubitInformationObject::ROOT_ID),
+              'filter' => 'hideDrafts',
+              'populate' => false));
 
   protected function populateFacet($name, $ids)
   {
@@ -153,11 +158,6 @@ class SearchIndexAction extends DefaultBrowseAction
   public function execute($request)
   {
     parent::execute($request);
-
-    if ('print' == $request->getGetParameter('media'))
-    {
-      $this->getResponse()->addStylesheet('print-preview', 'last');
-    }
 
     // Print noResults template if query is empty
     if (empty($request->query))

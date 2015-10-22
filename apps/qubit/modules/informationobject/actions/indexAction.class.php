@@ -95,15 +95,6 @@ class InformationObjectIndexAction extends sfAction
   {
     $this->resource = $this->getRoute()->resource;
 
-    $this->renameForm = new InformationObjectRenameForm;
-
-    // Set rename form values
-    $this->renameForm->setDefaults(array(
-      'title' => $this->resource->title,
-      'slug' => $this->resource->slug,
-      'filename' => $this->resource->digitalObjects[0]->name
-    ));
-
     // Check that this isn't the root
     if (!isset($this->resource->parent))
     {
@@ -129,11 +120,6 @@ class InformationObjectIndexAction extends sfAction
       $this->getResponse()->addStylesheet('/vendor/jstree/themes/default/style.min.css', 'last');
       $this->getResponse()->addJavascript('fullWidthTreeView', 'last');
       $this->getResponse()->addJavascript('/vendor/jstree/jstree.min.js', 'last');
-    }
-
-    if ('print' == $request->getGetParameter('media', 'screen'))
-    {
-      $this->getResponse()->addStylesheet('print-preview', 'last');
     }
 
     $scopeAndContent = $this->resource->getScopeAndContent(array('cultureFallback' => true));

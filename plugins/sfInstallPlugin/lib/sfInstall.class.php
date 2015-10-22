@@ -281,11 +281,22 @@ class sfInstall
   public static function configureDatabase(array $options = array())
   {
     $database = array();
+    $configFile = sfConfig::get('sf_config_dir').'/config.php';
 
     $configHandler = new sfInstallDatabaseConfigHandler;
 
     sfInstallDatabaseConfigHandler::$options = $options;
-    file_put_contents(sfConfig::get('sf_config_dir').'/config.php', $configHandler->execute(ProjectConfiguration::getActive()->getConfigPaths('config/databases.yml')));
+    file_put_contents($configFile, $configHandler->execute(ProjectConfiguration::getActive()->getConfigPaths('config/databases.yml')));
+
+    // Invalidate cache
+    if (function_exists('opcache_invalidate'))
+    {
+      $e = opcache_invalidate($configFile, true);
+    }
+    if (function_exists('apc_delete_file'))
+    {
+      $e = apc_delete_file($configFile);
+    }
 
     $databaseManager = sfContext::getInstance()->databaseManager;
 
@@ -450,8 +461,11 @@ class sfInstall
         'disallow_thumb'        => 0
       );
     }
-    $object = QubitSetting::createNewSetting('premisAccessRightValues', serialize($premisAccessRightValues), array('culture' => 'en'));
-    $object->save();
+    $setting = new QubitSetting;
+    $setting->name = 'premisAccessRightValues';
+    $setting->sourceCulture = sfConfig::get('sf_default_culture');
+    $setting->setValue(serialize($premisAccessRightValues), array('sourceCulture' => true));
+    $setting->save();
 
     $accessDisallowWarning = sfContext::getInstance()->i18n->__('Access to this record is restricted because it contains personal or confidential information. Please contact the Reference Archivist for more information on accessing this record.');
     $accessConditionalWarning = sfContext::getInstance()->i18n->__('This record has not yet been reviewed for personal or confidential information. Please contact the Reference Archivist to request access and initiate an access review.');
@@ -461,14 +475,24 @@ class sfInstall
       $setting->name = "{$item->slug}_disallow";
       $setting->scope = 'access_statement';
       $setting->setValue($accessDisallowWarning, array('culture' => 'en'));
-      // TODO Set translations from xliff catalogue using sfI18N?
+
+      foreach (QubitI18N::getTranslations($accessDisallowWarning) as $langCode => $message)
+      {
+        $setting->setValue($message, array('culture' => $langCode));
+      }
+
       $setting->save();
 
       $setting = new QubitSetting;
       $setting->name = "{$item->slug}_conditional";
       $setting->scope = 'access_statement';
       $setting->setValue($accessConditionalWarning, array('culture' => 'en'));
-      // TODO Set translations from xliff catalogue using sfI18N?
+
+      foreach (QubitI18N::getTranslations($accessConditionalWarning) as $langCode => $message)
+      {
+        $setting->setValue($message, array('culture' => $langCode));
+      }
+
       $setting->save();
     }
   }
