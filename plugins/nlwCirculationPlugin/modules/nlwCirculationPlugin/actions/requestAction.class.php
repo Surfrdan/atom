@@ -38,14 +38,7 @@ class nlwCirculationPluginRequestAction extends sfAction
     $criteria->addJoin(QubitRelation::SUBJECT_ID, QubitPhysicalObject::ID);
     $this->physicalObjects = QubitPhysicalObject::get($criteria);
 
-		$criteria = new Criteria;
-    $criteria->add(QubitTerm::TAXONOMY_ID, QubitTaxonomy::LEVEL_OF_DESCRIPTION_ID);
-    $criteria->addJoin(QubitTerm::ID, QubitTermI18n::ID);
-    $criteria->add(QubitTermI18n::CULTURE, sfContext::getInstance()->user->getCulture());
-
-    $term = QubitTermI18n::getOne($criteria);
-    $this->levelOfDescription = $term->name;
-	 		
+		
 		$pathArray = $request->getPathInfoArray();
 		if ($pathArray['employeeNumber']) {
 			$user->setAttribute('employeeNumber', $pathArray['employeeNumber']);
