@@ -55,6 +55,7 @@ class PhysicalObjectTableMap extends TableMap {
     $this->addRelation('physicalObjectRelatedByparentId', 'physicalObject', RelationMap::MANY_TO_ONE, array('parent_id' => 'id', ), null, null);
     $this->addRelation('physicalObjectRelatedByparentId', 'physicalObject', RelationMap::ONE_TO_MANY, array('id' => 'parent_id', ), null, null);
     $this->addRelation('physicalObjectI18n', 'physicalObjectI18n', RelationMap::ONE_TO_MANY, array('id' => 'id', ), 'CASCADE', null);
+    $this->addRelation('request', 'request', RelationMap::ONE_TO_MANY, array('id' => 'physical_object_id', ), null, null);
 	} // buildRelations()
 
 } // PhysicalObjectTableMap

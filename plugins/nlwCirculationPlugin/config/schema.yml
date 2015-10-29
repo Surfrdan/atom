@@ -19,6 +19,7 @@ propel:
     id: { type: integer, required: true, primaryKey: true, autoIncrement: true }
     object_id: { type: integer, required: true, primaryKey: true, foreignTable: object, foreignReference: id, onDelete: cascade }
     request_type_id: { type: integer, foreignTable: request_type, foreignReference: id }
+    physical_object_id: { type: integer, foreignTable: physical_object, foreignReference: id }
     patron_barcode: varchar(255) 
     requester_barcode: varchar(255) 
     collection_date: date

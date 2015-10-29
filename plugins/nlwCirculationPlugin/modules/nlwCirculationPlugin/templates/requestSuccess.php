@@ -29,6 +29,14 @@
     <label for="material"><?php echo __('Material') ?></label>
     <input type="text" readonly id="material" value="<?php echo implode(" ",$sf_data->getRaw('titles'));  ?>">
     <input type="hidden" id="slug" name="slug" value="<?php echo $slug; ?>" />
+    <label for="location"><?php echo __('Location') ?></label>
+    <select id="location" name="location"  >
+      <?php foreach ($physicalObjects as $l) {?>
+      <option value="<?php echo $l->getId(); ?>"> <?php echo $l->getLabel(); ?></option>
+      <?php } ?>
+    </select>
+
+
     <label for="collection_date"><?php echo __('Collection Date') ?></label>
     <input type="date" id="collection_date" name="collection_date" />
     <label for="notes"><?php echo __('Notes') ?></label>

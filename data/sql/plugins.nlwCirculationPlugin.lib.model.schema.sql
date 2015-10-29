@@ -46,6 +46,7 @@ CREATE TABLE `request`
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`object_id` INTEGER  NOT NULL,
 	`request_type_id` INTEGER,
+	`physical_object_id` INTEGER,
 	`patron_barcode` VARCHAR(255),
 	`requester_barcode` VARCHAR(255),
 	`collection_date` DATE,
@@ -72,8 +73,12 @@ CREATE TABLE `request`
 	CONSTRAINT `request_FK_2`
 		FOREIGN KEY (`request_type_id`)
 		REFERENCES `request_type` (`id`),
-	INDEX `request_FI_3` (`status`),
+	INDEX `request_FI_3` (`physical_object_id`),
 	CONSTRAINT `request_FK_3`
+		FOREIGN KEY (`physical_object_id`)
+		REFERENCES `physical_object` (`id`),
+	INDEX `request_FI_4` (`status`),
+	CONSTRAINT `request_FK_4`
 		FOREIGN KEY (`status`)
 		REFERENCES `request_status` (`id`)
 )Engine=InnoDB;

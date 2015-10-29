@@ -117,6 +117,11 @@ abstract class BasePhysicalObject extends QubitObject implements ArrayAccess
       return true;
     }
 
+    if ('requests' == $name)
+    {
+      return true;
+    }
+
     try
     {
       if (!$value = call_user_func_array(array($this->getCurrentphysicalObjectI18n($options), '__isset'), $args) && !empty($options['cultureFallback']))
@@ -193,6 +198,23 @@ abstract class BasePhysicalObject extends QubitObject implements ArrayAccess
       }
 
       return $this->refFkValues['physicalObjectI18ns'];
+    }
+
+    if ('requests' == $name)
+    {
+      if (!isset($this->refFkValues['requests']))
+      {
+        if (!isset($this->id))
+        {
+          $this->refFkValues['requests'] = QubitQuery::create();
+        }
+        else
+        {
+          $this->refFkValues['requests'] = self::getrequestsById($this->id, array('self' => $this) + $options);
+        }
+      }
+
+      return $this->refFkValues['requests'];
     }
 
     try
@@ -458,6 +480,26 @@ abstract class BasePhysicalObject extends QubitObject implements ArrayAccess
   public function addphysicalObjectI18nsCriteria(Criteria $criteria)
   {
     return self::addphysicalObjectI18nsCriteriaById($criteria, $this->id);
+  }
+
+  public static function addrequestsCriteriaById(Criteria $criteria, $id)
+  {
+    $criteria->add(QubitRequest::PHYSICAL_OBJECT_ID, $id);
+
+    return $criteria;
+  }
+
+  public static function getrequestsById($id, array $options = array())
+  {
+    $criteria = new Criteria;
+    self::addrequestsCriteriaById($criteria, $id);
+
+    return QubitRequest::get($criteria, $options);
+  }
+
+  public function addrequestsCriteria(Criteria $criteria)
+  {
+    return self::addrequestsCriteriaById($criteria, $this->id);
   }
 
   public function getCurrentphysicalObjectI18n(array $options = array())

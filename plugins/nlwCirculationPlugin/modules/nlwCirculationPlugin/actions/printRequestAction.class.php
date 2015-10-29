@@ -21,82 +21,66 @@ class nlwCirculationPluginPrintRequestAction extends sfAction
   public function execute($request)
   {
     $user = $this->getUser();
-
-    if($user->hasGroup(99)) {
-      if($request->getParameter('request_id')) {
-        $requestId = $request->getParameter('request_id');
-        $requestCriteria = new Criteria;
-        $requestCriteria->add(QubitRequest::ID, $requestId);
-        $this->qubitRequest = QubitRequest::get($requestCriteria)->__get(0);
+		if (!$this->getUser()->isAuthenticated()) {
+      QubitAcl::forwardUnauthorized();
+    }
+    $requestId = $request->getParameter('request_id');
+    $requestCriteria = new Criteria;
+    $requestCriteria->add(QubitRequest::ID, $requestId);
+    $this->qubitRequest = QubitRequest::get($requestCriteria)->__get(0);
         
-        $archiveCriteria = new Criteria;
-        $archiveCriteria->add(QubitObject::ID, $this->qubitRequest->getObjectId());
-        $this->resource = QubitInformationObject::get($archiveCriteria)->__get(0);
-         
-        $physCriteria = new Criteria;
-        $physCriteria->add(QubitObject::ID, $this->qubitRequest->getObjectId());
-        $this->phys = QubitPhysicalObject::get($physCriteria)->__get(0);
+    $archiveCriteria = new Criteria;
+    $archiveCriteria->add(QubitObject::ID, $this->qubitRequest->getObjectId());
+    $this->resource = QubitInformationObject::get($archiveCriteria)->__get(0);
+     
+    $criteria = new Criteria;
+    $criteria->setDistinct();
+    $criteria->add(QubitRelation::TYPE_ID, QubitTerm::HAS_PHYSICAL_OBJECT_ID);
+    $criteria->addJoin(QubitRelation::OBJECT_ID, QubitInformationObject::ID);
+    $criteria->addJoin(QubitRelation::SUBJECT_ID, QubitPhysicalObject::ID);
+    $this->physicalObjects = QubitPhysicalObject::get($criteria);
+		var_dump($this->physicalObjects->__get(0)->getName()); exit;
+   
 
-        $requestSlip = array_pad(array(), 59, '');
-        $requestSlip[2] = $this->qubitRequest->getPatronBarcode();
-        $requestSlip[3] = $this->qubitRequest->getPatronType();
-        $requestSlip[4] = $this->qubitRequest->getPatronName();
-        $requestSlip[5] = $this->phys->getLocation();
-        $requestSlip[8] = $this->qubitRequest->getPatronNotes();
-        $requestSlip[10] = date("H:i:s",strtotime($this->qubitRequest->getCreatedAt()));
-        $requestSlip[12] = date("d-M-Y",strtotime($this->qubitRequest->getCreatedAt()));
-        $requestSlip[13] = $request->getParameter('request_id');
-        $requestSlip[14] = 'PrintyddSlips';
-        $requestSlip[15] = 'DE/SOUTH';
-        $requestSlip[17] = $request->getParameter('request_id');
-        $requestSlip[21] = $this->resource->getPropertyByName('Control number')->getvalue();
-        $requestSlip[22] = $this->phys->getName();
-        $requestSlip[26] = date("d-M-Y",strtotime($this->qubitRequest->getCollectionDate()));
-        $requestSlip[27] = date("H:i:s",strtotime($this->qubitRequest->getCollectionDate()));
-        $requestSlip[41] = $this->resource->getTitle();
-        $requestSlip[42] = "TODO: Creator";
-        $requestSlip[44] = date("H:i:s",strtotime($this->qubitRequest->getCollectionDate()));
-        $requestSlip[48] = "TODO: Edition";
-        $requestSlip[52] = $this->resource->getCollectionRoot()->getTitle();
-        $requestSlip[57] = "TODO: Other Location";
-        $requestSlip[58] = "TODO: Other Shelf Numbers \\n";
-        $printerSlip = implode("\n", $requestSlip);
-				$ipp = new PrintIPP();
-				$ipp->setHost("slipserv.llgc.org.uk");
-        $ipp->setPrinterURI("/printers/AV007");
-		    $ipp->setLog('/tmp/printipp','file',1);
-        $ipp->setData($printerSlip);
-        $ipp->printJob();
-			}
-    }
-    
-      /*
-    $this->titles = array($this->resource->__toString());
-    $noparent = false;
-    $object = $this->resource;
-    while ($noparent == false) {
-      if (isset($object->parent) && $object->parent->__toString() != '') {
-        $object = $object->parent;
-        $this->titles[] = ($object->__toString());
-      } else {
-        $noparent = true;
-      }
-    }
-    $this->titles = array_reverse($this->titles); 
-    
-    $this->materialTitle = implode(" ",$this->titles); 
-    */
-    // go back to refferer?
-    // $this->redirect(array($resource, 'module' => 'nlwCirculationPlugin', 'action' => 'updateRequest'));
+    $physCriteria = new Criteria;
+    $physCriteria->add(QubitRelation::OBJECT_ID, $this->resource->getCollectionRoot()->getId());
+    $physCriteria->add(QubitRelation::TYPE_ID, QubitTerm::HAS_PHYSICAL_OBJECT_ID);
+    $physCriteria->addJoin(QubitRelation::SUBJECT_ID, QubitPhysicalObject::ID);
+		$this->phys = QubitPhysicalObject::get($physCriteria);
+		var_dump($this->phys->count());
+	 	echo "object: " . $this->qubitRequest->getObjectId() . "<br />";
+		echo "collection object: " . $this->resource->getCollectionRoot()->getId() . "<br />";
+    $requestSlip = array_pad(array(), 59, '');
+    $requestSlip[2] = $this->qubitRequest->getPatronBarcode();
+    $requestSlip[3] = $this->qubitRequest->getPatronType();
+    $requestSlip[4] = $this->qubitRequest->getPatronName();
+    $requestSlip[5] = $this->phys->getLocation();
+    $requestSlip[8] = $this->qubitRequest->getPatronNotes();
+    $requestSlip[10] = date("H:i:s",strtotime($this->qubitRequest->getCreatedAt()));
+    $requestSlip[12] = date("d-M-Y",strtotime($this->qubitRequest->getCreatedAt()));
+    $requestSlip[13] = $request->getParameter('request_id');
+    $requestSlip[14] = 'PrintyddSlips';
+    $requestSlip[15] = 'DE/SOUTH';
+    $requestSlip[17] = $request->getParameter('request_id');
+    $requestSlip[21] = $this->resource->slug;
+    $requestSlip[22] = $this->phys->getName();
+    $requestSlip[26] = date("d-M-Y",strtotime($this->qubitRequest->getCollectionDate()));
+    $requestSlip[27] = date("H:i:s",strtotime($this->qubitRequest->getCollectionDate()));
+    $requestSlip[41] = $this->resource->getTitle();
+    $requestSlip[42] = $this->qubitRequest->getItemCreator();
+    $requestSlip[44] = date("H:i:s",strtotime($this->qubitRequest->getCollectionDate()));
+    $requestSlip[48] = "TODO: Edition";
+    $requestSlip[52] = $this->resource->getCollectionRoot()->getTitle();
+    $requestSlip[57] = ""; // other location
+    $requestSlip[58] = "TODO: Other Shelf Numbers";
+    $printerSlip = implode("\n", $requestSlip);
+		var_dump($requestSlip);
+		exit;
+		$ipp = new PrintIPP();
+		$ipp->setHost("slipserv.llgc.org.uk");
+    $ipp->setPrinterURI("/printers/AV007");
+	  $ipp->setLog('/tmp/printipp','file',1);
+    $ipp->setData($printerSlip);
+    $ipp->printJob();
   }
-  
-  
-  /*
-  public function executeUpdate($request) {
-    
-    $this->qubitRequest = new QubitRequest();
-    $this->qubitRequest->set
-  }
-  */
-  
 }

@@ -39,6 +39,7 @@ class RequestTableMap extends TableMap {
 		$this->addPrimaryKey('ID', 'id', 'INTEGER', true, null, null);
 		$this->addForeignPrimaryKey('OBJECT_ID', 'objectId', 'INTEGER' , 'object', 'ID', true, null, null);
 		$this->addForeignKey('REQUEST_TYPE_ID', 'requestTypeId', 'INTEGER', 'request_type', 'ID', false, null, null);
+		$this->addForeignKey('PHYSICAL_OBJECT_ID', 'physicalObjectId', 'INTEGER', 'physical_object', 'ID', false, null, null);
 		$this->addColumn('PATRON_BARCODE', 'patronBarcode', 'VARCHAR', false, 255, null);
 		$this->addColumn('REQUESTER_BARCODE', 'requesterBarcode', 'VARCHAR', false, 255, null);
 		$this->addColumn('COLLECTION_DATE', 'collectionDate', 'DATE', false, null, null);
@@ -65,6 +66,7 @@ class RequestTableMap extends TableMap {
 	{
     $this->addRelation('object', 'object', RelationMap::MANY_TO_ONE, array('object_id' => 'id', ), 'CASCADE', null);
     $this->addRelation('requestType', 'requestType', RelationMap::MANY_TO_ONE, array('request_type_id' => 'id', ), null, null);
+    $this->addRelation('physicalObject', 'physicalObject', RelationMap::MANY_TO_ONE, array('physical_object_id' => 'id', ), null, null);
     $this->addRelation('requestStatus', 'requestStatus', RelationMap::MANY_TO_ONE, array('status' => 'id', ), null, null);
 	} // buildRelations()
 
