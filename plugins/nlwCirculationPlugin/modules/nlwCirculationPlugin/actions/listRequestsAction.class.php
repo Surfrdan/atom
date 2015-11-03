@@ -45,7 +45,12 @@ class nlwCirculationPluginListRequestsAction extends sfAction
 		}
 
     $path = $request->getPathInfo();
-    $this->qubitRequests = QubitRequest::get($criteria);
+	
+    $this->pager = new QubitPager('QubitRequest');
+    $this->pager->setCriteria($criteria);
+    $this->pager->setMaxPerPage(5);
+    $this->pager->setPage($request->page);
+    $this->qubitRequests = $this->pager->getResults();
   }
   
 }

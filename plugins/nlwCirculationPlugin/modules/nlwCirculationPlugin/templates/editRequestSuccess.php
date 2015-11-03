@@ -55,6 +55,9 @@
     <input type="date" id="expiry_date" name="expiry_date" value="<?php if($staff) { echo $qubitRequest->getExpiryDate(); } ?>" />
     <label for="patron_barcode"><?php echo __('Patron Barcode') ?></label>
     <input type="text" id="patron_barcode" name="patron_barcode" value="<?php if($staff) { echo $qubitRequest->getPatronBarcode(); } ?>" />
+		<label for="patron_name"><?php echo __('Patron Name') ?></label>
+    <input type="text" id="patron_name" name="patron_name" value="<?php if($staff) { echo $qubitRequest->getPatronName(); } ?>" />
+
     <label for="status"><?php echo __('Status') ?></label>
     <select id="status" name="status"  >
       <?php foreach ($statuses as $s) {?>

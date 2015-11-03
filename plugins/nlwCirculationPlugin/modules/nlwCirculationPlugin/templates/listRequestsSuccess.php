@@ -40,11 +40,11 @@
         <tr>
           <th><?php echo __('ID') ?></th>
           <th><?php echo __('Date') ?></th>
-          <th><?php echo __('Barcode') ?></th>
-          <th><?php echo __('Name') ?></th>
-          <th><?php echo __('Item') ?></th>
-          <th><?php echo __('Collect') ?></th>
-          <th><?php echo __('Expires') ?></th>
+          <th><?php echo __('Patron Barcode') ?></th>
+          <th><?php echo __('Patron Name') ?></th>
+          <th><?php echo __('Item Title') ?></th>
+          <th><?php echo __('Collection Date') ?></th>
+          <th><?php echo __('Expiry Date') ?></th>
           <th><?php echo __('Status') ?></th>
           <th><?php echo __('View') ?></th>
         </tr>
@@ -56,7 +56,7 @@
         <td><?php echo $r->getCreatedAt(); ?></td>
         <td><?php echo $r->getPatronBarcode(); ?></td>
         <td><?php echo $r->getPatronName(); ?></td>
-        <td><?php echo $r->getObjectId(); ?></td>
+        <td><?php echo $r->getItemTitle(); ?></td>
         <td><?php echo $r->getCollectionDate(); ?></td>
         <td><?php echo $r->getExpiryDate(); ?></td>
         <td><?php echo $statuses[$r->getStatus()]; ?></td>
@@ -65,4 +65,5 @@
       <?php endforeach; ?>
     </tbody>
     </table>
+<?php echo get_partial('default/pager', array('pager' => $pager)) ?>
 <?php end_slot() ?>

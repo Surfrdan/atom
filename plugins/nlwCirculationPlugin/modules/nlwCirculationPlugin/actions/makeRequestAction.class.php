@@ -29,7 +29,7 @@ class nlwCirculationPluginMakeRequestAction extends sfAction
     $criteria->addJoin(QubitSlug::OBJECT_ID, QubitObject::ID);
     $this->resource = QubitObject::get($criteria)->__get(0);
 		$this->creator = $this->resource->getCollectionRoot()->getCreators()->__get(0); 
-		$this->event = $this->resource->getCreationEvents()->__get(0);
+		$this->event = $this->resource->getDates()->__get(0);
 		$this->qubitRequest = new QubitRequest();
     $this->qubitRequest->setObjectId($this->resource->id);
     $this->qubitRequest->setRequestTypeId('1');
@@ -46,6 +46,7 @@ class nlwCirculationPluginMakeRequestAction extends sfAction
 		$this->qubitRequest->setItemCreator($this->creator->getAuthorizedFormOfName());
     $this->qubitRequest->setCollectionTitle($this->resource->getCollectionRoot()->getTitle());
 	  $this->qubitRequest->save();
+    nlwCirculationPlugin::printRequest($this->qubitRequest->getId());
   }
 }
 

@@ -25,48 +25,6 @@ class nlwCirculationPluginPrintRequestAction extends sfAction
       QubitAcl::forwardUnauthorized();
     }
     $requestId = $request->getParameter('request_id');
-    $requestCriteria = new Criteria;
-    $requestCriteria->add(QubitRequest::ID, $requestId);
-    $this->qubitRequest = QubitRequest::get($requestCriteria)->__get(0);
-        
-    $archiveCriteria = new Criteria;
-    $archiveCriteria->add(QubitObject::ID, $this->qubitRequest->getObjectId());
-    $this->resource = QubitInformationObject::get($archiveCriteria)->__get(0);
-   
- 
-    $criteria = new Criteria;
-		$criteria->add(QubitPhysicalObject::ID, $this->qubitRequest->getPhysicalObjectId());
-    $this->physicalObjects = QubitPhysicalObject::get($criteria)->__get(0);
-
-    $requestSlip = array_pad(array(), 59, '');
-    $requestSlip[2] = $this->qubitRequest->getPatronBarcode();
-    $requestSlip[3] = $this->qubitRequest->getPatronType();
-    $requestSlip[4] = $this->qubitRequest->getPatronName();
-    $requestSlip[5] = $this->physicalObjects->getLocation();
-    $requestSlip[8] = $this->qubitRequest->getPatronNotes();
-    $requestSlip[10] = date("H:i:s",strtotime($this->qubitRequest->getCreatedAt()));
-    $requestSlip[12] = date("d-M-Y",strtotime($this->qubitRequest->getCreatedAt()));
-    $requestSlip[13] = $request->getParameter('request_id');
-    $requestSlip[14] = 'PrintyddSlips';
-    $requestSlip[15] = 'DE/SOUTH';
-    $requestSlip[17] = $request->getParameter('request_id');
-    $requestSlip[21] = $this->resource->slug;
-    $requestSlip[22] = $this->physicalObjects->getName();
-    $requestSlip[26] = date("d-M-Y",strtotime($this->qubitRequest->getCollectionDate()));
-    $requestSlip[27] = date("H:i:s",strtotime($this->qubitRequest->getCollectionDate()));
-    $requestSlip[41] = $this->resource->getTitle();
-    $requestSlip[42] = $this->qubitRequest->getItemCreator();
-    $requestSlip[44] = date("H:i:s",strtotime($this->qubitRequest->getCollectionDate()));
-    $requestSlip[48] = "TODO: Edition";
-    $requestSlip[52] = $this->resource->getCollectionRoot()->getTitle();
-    $requestSlip[57] = ""; // other location
-    $requestSlip[58] = "TODO: Other Shelf Numbers";
-    $printerSlip = implode("\n", $requestSlip);
-		$ipp = new PrintIPP();
-		$ipp->setHost("slipserv.llgc.org.uk");
-    $ipp->setPrinterURI("/printers/AV007");
-	  $ipp->setLog('/tmp/printipp','file',1);
-    $ipp->setData($printerSlip);
-    $ipp->printJob();
+		nlwCirculationPlugin::printRequest($requestId);
   }
 }
