@@ -33,9 +33,10 @@ class nlwCirculationPluginRequestAction extends sfAction
 
     $criteria = new Criteria;
     $criteria->setDistinct();
-    $criteria->add(QubitRelation::TYPE_ID, QubitTerm::HAS_PHYSICAL_OBJECT_ID);
     $criteria->addJoin(QubitRelation::OBJECT_ID, QubitInformationObject::ID);
     $criteria->addJoin(QubitRelation::SUBJECT_ID, QubitPhysicalObject::ID);
+    $criteria->add(QubitRelation::TYPE_ID, QubitTerm::HAS_PHYSICAL_OBJECT_ID);
+    $criteria->add(QubitRelation::OBJECT_ID, $this->resource->getId());
     $this->physicalObjects = QubitPhysicalObject::get($criteria);
 
 		
