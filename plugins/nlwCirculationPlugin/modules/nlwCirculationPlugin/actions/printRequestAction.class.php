@@ -32,29 +32,17 @@ class nlwCirculationPluginPrintRequestAction extends sfAction
     $archiveCriteria = new Criteria;
     $archiveCriteria->add(QubitObject::ID, $this->qubitRequest->getObjectId());
     $this->resource = QubitInformationObject::get($archiveCriteria)->__get(0);
-     
-    $criteria = new Criteria;
-    $criteria->setDistinct();
-    $criteria->add(QubitRelation::TYPE_ID, QubitTerm::HAS_PHYSICAL_OBJECT_ID);
-    $criteria->addJoin(QubitRelation::OBJECT_ID, QubitInformationObject::ID);
-    $criteria->addJoin(QubitRelation::SUBJECT_ID, QubitPhysicalObject::ID);
-    $this->physicalObjects = QubitPhysicalObject::get($criteria);
-		var_dump($this->physicalObjects->__get(0)->getName()); exit;
    
+ 
+    $criteria = new Criteria;
+		$criteria->add(QubitPhysicalObject::ID, $this->qubitRequest->getPhysicalObjectId());
+    $this->physicalObjects = QubitPhysicalObject::get($criteria)->__get(0);
 
-    $physCriteria = new Criteria;
-    $physCriteria->add(QubitRelation::OBJECT_ID, $this->resource->getCollectionRoot()->getId());
-    $physCriteria->add(QubitRelation::TYPE_ID, QubitTerm::HAS_PHYSICAL_OBJECT_ID);
-    $physCriteria->addJoin(QubitRelation::SUBJECT_ID, QubitPhysicalObject::ID);
-		$this->phys = QubitPhysicalObject::get($physCriteria);
-		var_dump($this->phys->count());
-	 	echo "object: " . $this->qubitRequest->getObjectId() . "<br />";
-		echo "collection object: " . $this->resource->getCollectionRoot()->getId() . "<br />";
     $requestSlip = array_pad(array(), 59, '');
     $requestSlip[2] = $this->qubitRequest->getPatronBarcode();
     $requestSlip[3] = $this->qubitRequest->getPatronType();
     $requestSlip[4] = $this->qubitRequest->getPatronName();
-    $requestSlip[5] = $this->phys->getLocation();
+    $requestSlip[5] = $this->physicalObjects->getLocation();
     $requestSlip[8] = $this->qubitRequest->getPatronNotes();
     $requestSlip[10] = date("H:i:s",strtotime($this->qubitRequest->getCreatedAt()));
     $requestSlip[12] = date("d-M-Y",strtotime($this->qubitRequest->getCreatedAt()));
@@ -63,7 +51,7 @@ class nlwCirculationPluginPrintRequestAction extends sfAction
     $requestSlip[15] = 'DE/SOUTH';
     $requestSlip[17] = $request->getParameter('request_id');
     $requestSlip[21] = $this->resource->slug;
-    $requestSlip[22] = $this->phys->getName();
+    $requestSlip[22] = $this->physicalObjects->getName();
     $requestSlip[26] = date("d-M-Y",strtotime($this->qubitRequest->getCollectionDate()));
     $requestSlip[27] = date("H:i:s",strtotime($this->qubitRequest->getCollectionDate()));
     $requestSlip[41] = $this->resource->getTitle();
@@ -74,8 +62,6 @@ class nlwCirculationPluginPrintRequestAction extends sfAction
     $requestSlip[57] = ""; // other location
     $requestSlip[58] = "TODO: Other Shelf Numbers";
     $printerSlip = implode("\n", $requestSlip);
-		var_dump($requestSlip);
-		exit;
 		$ipp = new PrintIPP();
 		$ipp->setHost("slipserv.llgc.org.uk");
     $ipp->setPrinterURI("/printers/AV007");

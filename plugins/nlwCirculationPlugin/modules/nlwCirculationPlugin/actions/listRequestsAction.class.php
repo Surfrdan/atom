@@ -21,13 +21,13 @@ class nlwCirculationPluginListRequestsAction extends sfAction
   {
 		sfContext::getInstance()->response->addStylesheet('/plugins/nlwCirculationPlugin/css/blue/style.css');
     sfContext::getInstance()->response->addJavaScript('/plugins/nlwCirculationPlugin/js/jquery.tablesorter.js');
-    //sfContext::getInstance()->response->addJavaScript('/plugins/nlwCirculationPlugin/js/jquery.tablesorter.widgets.js');
     sfContext::getInstance()->response->addJavaScript('/plugins/nlwCirculationPlugin/js/request.table.js');
 
     $user = $this->getUser();
-    if(!$user->hasGroup(99)) {
-      $this->redirect('@homepage');
+		if (!$user->isAuthenticated()) {
+      QubitAcl::forwardUnauthorized();
     }
+
     if ($request->getPostParameter('request_statuses')) {
 			$this->request_statuses = $request->getPostParameter('request_statuses');
 		} else {

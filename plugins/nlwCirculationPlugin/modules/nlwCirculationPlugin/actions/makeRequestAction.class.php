@@ -30,27 +30,11 @@ class nlwCirculationPluginMakeRequestAction extends sfAction
     $this->resource = QubitObject::get($criteria)->__get(0);
 		$this->creator = $this->resource->getCollectionRoot()->getCreators()->__get(0); 
 		$this->event = $this->resource->getCreationEvents()->__get(0);
-		/* 
-    $criteria = new Criteria;
-    $criteria->addJoin(QubitActor::ID, QubitEvent::ACTOR_ID);
-    $criteria->add(QubitEvent::OBJECT_ID, $this->id);
-
-    if (isset($options['eventTypeId'])) {
-      $criteria->add(QubitEvent::TYPE_ID, $options['eventTypeId']);
-    }
-
-    if (isset($options['cultureFallback']) && true === $options['cultureFallback']) {
-      $criteria->addAscendingOrderByColumn('authorized_form_of_name');
-      $criteria = QubitCultureFallback::addFallbackCriteria($criteria, 'QubitActor', $options);
-    }
-    $this->actors = QubitActor::get($criteria);
-		*/
-
 		$this->qubitRequest = new QubitRequest();
     $this->qubitRequest->setObjectId($this->resource->id);
     $this->qubitRequest->setRequestTypeId('1');
     $this->qubitRequest->setStatus('1');
-    $this->qubitRequest->setPhysicalObject($request->getParameter('physical_object'));
+    $this->qubitRequest->setPhysicalObjectId($request->getParameter('location'));
     $this->qubitRequest->setExpiryDate(date("Y-m-d",strtotime("+1 week")));
     $this->qubitRequest->setPatronBarcode($user->getAttribute('employeeNumber'));
     $this->qubitRequest->setPatronType($user->getAttribute('employeeType'));
@@ -62,16 +46,6 @@ class nlwCirculationPluginMakeRequestAction extends sfAction
 		$this->qubitRequest->setItemCreator($this->creator->getAuthorizedFormOfName());
     $this->qubitRequest->setCollectionTitle($this->resource->getCollectionRoot()->getTitle());
 	  $this->qubitRequest->save();
-    //$this->redirect(array($resource, 'module' => 'informationobject', 'slug' => $slug));
   }
-  
-  
-  /*
-  public function executeUpdate($request) {
-    
-    $this->qubitRequest = new QubitRequest();
-    $this->qubitRequest->set
-  }
-  */
-  
 }
+
