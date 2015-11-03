@@ -44,7 +44,7 @@
     <label for="expiry_date"><?php echo __('Expiry Date') ?></label>
     <input type="date" id="expiry_date" name="expiry_date" readonly value="<?php echo date("Y-m-d",strtotime("+1 week")); ?>" />
  
-    <input type="submit" value ="<?php echo __('Submit Request'); ?>"/>
+    <input type="submit" value ="<?php echo __('Submit Request'); ?>" class="request-button" />
   </fieldset>
   
 </form>

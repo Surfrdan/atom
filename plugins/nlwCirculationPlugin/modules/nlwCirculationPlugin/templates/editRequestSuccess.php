@@ -78,9 +78,9 @@
     <label for="staff_notes"><?php echo __('Staff Notes') ?></label>
     <input type="text" id="staff_notes" name="staff_notes" value="<?php if($staff) { echo $qubitRequest->getStaffNotes(); } ?>" />
     <input type="submit" value ="<?php echo __('Update Request'); ?>"/>
-    <input type="button" value ="<?php echo __('Print Request'); ?>" onClick="location.href='<?php echo url_for(array('module' => 'nlwCirculationPlugin', 'action' => 'printRequest', 'request_id' => $qubitRequest->getId())) ?>';" />
+    <input type="button" value ="<?php echo __('Print Request'); ?>" onClick="location.href='<?php echo url_for(array('module' => 'nlwCirculationPlugin', 'action' => 'printRequest', 'request_id' => $qubitRequest->getId())) ?>';" class="request-button" />
     <?php }  else {?>
-    <input type="submit" value ="<?php echo __('Request'); ?>"/>
+    <input type="submit" value ="<?php echo __('Request'); ?>" class="request-button" />
     <?php } ?>
     
   </fieldset>

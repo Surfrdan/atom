@@ -2,7 +2,7 @@ th {
   text-align: left;
   font-weight: bold;  
 }
-div.request-button {
+.request-button  {
   border-color: #cba957 #bf942a #aa8326;
   background: linear-gradient(to bottom, #f7dfa5, #f0c14b) repeat scroll 0 0 rgba(0, 0, 0, 0);
   border-width: 1px;
@@ -11,7 +11,7 @@ div.request-button {
   margin-bottom: .5em;
   margin-top: .5em;
   display: inline-block;
-  padding: 0px 0px 0px 0px;
+  padding: 1px 3px 2px 3px;
   line-height: auto;
 }
 
