@@ -36,7 +36,12 @@ class nlwCirculationPluginMakeRequestAction extends sfAction
     $this->qubitRequest->setStatus('1');
     $this->qubitRequest->setPhysicalObjectId($request->getParameter('location'));
     $this->qubitRequest->setExpiryDate(date("Y-m-d",strtotime("+1 week")));
-    $this->qubitRequest->setPatronBarcode($user->getAttribute('employeeNumber'));
+		if ($request->getParameter('patron_barcode')) {
+			$this->qubitRequest->setPatronBarcode($request->getParameter('patron_barcode'));
+			$this->qubitRequest->setRequesterBarcode($user->getAttribute('employeeNumber'));
+		} else {
+    	$this->qubitRequest->setPatronBarcode($user->getAttribute('employeeNumber'));
+		}
     $this->qubitRequest->setPatronType($user->getAttribute('employeeType'));
     $this->qubitRequest->setPatronName($user->getAttribute('employeeName'));
     $this->qubitRequest->setCollectionDate($request->getParameter('collection_date'));

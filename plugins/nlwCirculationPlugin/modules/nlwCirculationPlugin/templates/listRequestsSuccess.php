@@ -56,7 +56,7 @@
         <td><?php echo $r->getCreatedAt(); ?></td>
         <td><?php echo $r->getPatronBarcode(); ?></td>
         <td><?php echo $r->getPatronName(); ?></td>
-        <td><?php echo $r->getItemTitle(); ?></td>
+        <td><div title="<?php echo $r->getItemTitle(); ?>"><?php echo substr($r->getItemTitle(),0,50); ?></div></td>
         <td><?php echo $r->getCollectionDate(); ?></td>
         <td><?php echo $r->getExpiryDate(); ?></td>
         <td><?php echo $statuses[$r->getStatus()]; ?></td>

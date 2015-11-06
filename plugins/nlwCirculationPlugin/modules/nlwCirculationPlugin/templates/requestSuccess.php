@@ -26,6 +26,11 @@
 <form action="<?php echo url_for(array($resource, 'module' => 'nlwCirculationPlugin', 'action' => 'makeRequest', 'slug' => $slug)) ?>" method="post">
   <fieldset id="requestInformation">
     <legend><?php echo __('Request Information') ?></legend>
+		<?php $user = $sf_data->getRaw('user'); ?>
+		<?php if ($user->getAttribute('employeeType') == 'STAFF') { ?>
+    <label for="patron_barcode"><?php echo __('Patron Barcode'); ?></label>
+    <input type="text" id="patron_barcode" name="patron_barcode" value="<?php echo $user->getAttribute('employeeNumber'); ?>"/>
+ 		<?php } ?>
     <label for="material"><?php echo __('Material') ?></label>
     <input type="text" readonly id="material" value="<?php echo implode(" ",$sf_data->getRaw('titles'));  ?>">
     <input type="hidden" id="slug" name="slug" value="<?php echo $slug; ?>" />

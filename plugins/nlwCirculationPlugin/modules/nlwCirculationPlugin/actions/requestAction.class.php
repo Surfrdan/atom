@@ -20,7 +20,7 @@ class nlwCirculationPluginRequestAction extends sfAction
   
   public function execute($request)
   {
-    $user = $this->getUser();
+    $this->user = $this->getUser();
     $path = $request->getPathInfo();
     $pieces = explode("/", $path, 3);
     $this->slug = $request->getParameter('slug');
@@ -42,16 +42,16 @@ class nlwCirculationPluginRequestAction extends sfAction
 		
 		$pathArray = $request->getPathInfoArray();
 		if ($pathArray['employeeNumber']) {
-			$user->setAttribute('employeeNumber', $pathArray['employeeNumber']);
+			$this->user->setAttribute('employeeNumber', $pathArray['employeeNumber']);
 		}
 		if ($pathArray['employeeType']) {
-			$user->setAttribute('employeeType', $pathArray['employeeType']);
+			$this->user->setAttribute('employeeType', $pathArray['employeeType']);
 		}   
 		if ($pathArray['givenName']) {
-			$user->setAttribute('employeeName', $pathArray['givenName'] . ' ' .$pathArray['sn']);
+			$this->user->setAttribute('employeeName', $pathArray['givenName'] . ' ' .$pathArray['sn']);
 		}
-		
 		$this->titles = array($this->resource->__toString());
+
     $noparent = false;
     $object = $this->resource;
     while ($noparent == false) {
