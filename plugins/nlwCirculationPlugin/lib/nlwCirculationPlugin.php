@@ -87,7 +87,6 @@ class nlwCirculationPlugin {
     $archiveCriteria = new Criteria;
     $archiveCriteria->add(QubitObject::ID, $qubitRequest->getObjectId());
     $resource = QubitInformationObject::get($archiveCriteria)->__get(0);
-   	
 		$physicalObject = self::getPhysicalObject($qubitRequest->getPhysicalObjectId());
     $requestSlip = array_pad(array(), 59, '');
     $requestSlip[2] = $qubitRequest->getPatronBarcode();
@@ -97,7 +96,7 @@ class nlwCirculationPlugin {
     $requestSlip[8] = $qubitRequest->getPatronNotes();
     $requestSlip[10] = date("H:i:s",strtotime($qubitRequest->getCreatedAt()));
     $requestSlip[12] = date("d-M-Y",strtotime($qubitRequest->getCreatedAt()));
-    $requestSlip[13] = $requestId;
+    $requestSlip[13] = QubitSlug::getByObjectId($qubitRequest->getObjectId())->getId();
     $requestSlip[14] = 'PrintyddSlips';
     $requestSlip[15] = 'DE/SOUTH';
     $requestSlip[17] = $requestId;
