@@ -63,15 +63,15 @@ class nlwCirculationPlugin {
 		foreach($pObjects as $physicalObject) { 
 			$returnObject->location = $physicalObject->getLocation();
 			if (empty($returnObject->location)) { 
-				self::getPhysicalObjects($resource->getAncestors()->orderBy('lft')->getId());
+				self::getPhysicalObjects($resource->getAncestors()->orderBy('lft')->__get(0)->id);
 			}
 			$returnObject->name = $physicalObject->getName();
 			if (empty($returnObject->name)) { 
-				self::getPhysicalObjects($resource->getAncestors()->orderBy('lft')->getId());
+				self::getPhysicalObjects($resource->getAncestors()->orderBy('lft')->__get(0)->id);
 			}
 			$returnObject->label = $physicalObject->getLabel();
 			if (empty($returnObject->label)) { 
-				self::getPhysicalObjects($resource->getAncestors()->orderBy('lft')->getId());
+				self::getPhysicalObjects($resource->getAncestors()->orderBy('lft')->__get(0)->id);
 			}
 			$returnObject->id = $physicalObject->getId();
 			$objects[] = $returnObject;
