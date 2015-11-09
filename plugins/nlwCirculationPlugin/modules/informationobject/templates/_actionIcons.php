@@ -12,35 +12,11 @@
       <?php endif; ?>
     <?php endif; ?>
 
-    <?php if (InformationObjectInventoryAction::showInventory($resource)): ?>
-      <li>
-        <a href="<?php echo url_for(array($resource, 'module' => 'informationobject', 'action' => 'inventory')) ?>">
-          <i class="icon-list-alt"></i>
-          <?php echo __('Inventory') ?>
-        </a>
-      </li>
-    <?php endif; ?>
 
     <li>
-      <a href="<?php echo url_for(array(
-        'module' => 'informationobject',
-        'action' => 'browse',
-        'collection' => $resource->getCollectionRoot()->id,
-        'topLod' => false)) ?>">
-        <i class="icon-list"></i>
-        <?php echo __('Browse as list') ?>
-      </a>
-    </li>
-
-    <li>
-      <a href="<?php echo url_for(array(
-        $resource->getCollectionRoot(),
-        'module' => 'digitalobject',
-        'action' => 'browse',
-        'collection' => $resource->getCollectionRoot()->id,
-        'topLod' => false)) ?>">
-        <i class="icon-picture"></i>
-        <?php echo __('Browse digital objects') ?>
+      <a href="<?php echo url_for(array($resource, 'module' => 'informationobject', 'action' => 'reports')) ?>">
+        <i class="icon-print"></i>
+        <?php echo __('Reports') ?>
       </a>
     </li>
 
@@ -84,12 +60,10 @@
       <li>
         <a href="<?php echo url_for(array($resource, 'module' => 'sfModsPlugin', 'sf_format' => 'xml')) ?>">
           <i class="icon-upload-alt"></i>
-          <?php echo __('MODS 3.5 XML') ?>
+          <?php echo __('MODS 3.3 XML') ?>
         </a>
       </li>
     <?php endif; ?>
-
-    <?php echo get_component('informationobject', 'findingAid', array('resource' => $resource)) ?>
 
   </ul>
 </section>

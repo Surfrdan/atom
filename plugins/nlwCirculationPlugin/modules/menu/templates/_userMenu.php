@@ -2,7 +2,7 @@
 
   <div id="user-menu">
 
-    <button class="top-item top-dropdown" data-toggle="dropdown" data-target="#" aria-expanded="false"><?php echo __('Log in') ?></button>
+    <a class="top-item top-dropdown" data-toggle="dropdown" data-target="#" ><?php echo __('Log in') ?></a>
 
     <div class="top-dropdown-container">
 
@@ -11,7 +11,7 @@
       </div>
 
       <div class="top-dropdown-header">
-        <h2><?php echo __('Have an account?') ?></h2>
+        <?php echo __('Have an account?') ?>
       </div>
 
       <div class="top-dropdown-body">
@@ -24,7 +24,7 @@
 
           <?php echo $form->password->renderRow(array('autocomplete' => 'off')) ?>
 
-          <button type="submit"><?php echo __('Log in') ?></button>
+          <button type="submit"><?php echo _('Log in') ?></button>
 
         </form>
 
@@ -40,9 +40,9 @@
 
   <div id="user-menu">
 
-    <button class="top-item top-dropdown" data-toggle="dropdown" data-target="#" aria-expanded="false">
+    <a class="top-item top-dropdown" data-toggle="dropdown" data-target="#" >
       <?php echo $sf_user->user->username ?>
-    </button>
+    </a>
 
     <div class="top-dropdown-container">
 
@@ -51,8 +51,8 @@
       </div>
 
       <div class="top-dropdown-header">
-        <?php echo image_tag($gravatar, array('alt' => '')) ?>&nbsp;
-        <h2><?php echo __('Hi, %1%', array('%1%' => $sf_user->user->username)) ?></h2>
+        <?php echo image_tag($gravatar) ?>&nbsp;
+        <?php echo __('Hi, %1%', array('%1%' => $sf_user->user->username)) ?>
       </div>
 
       <div class="top-dropdown-body">
@@ -60,7 +60,7 @@
         <ul>
           <li><?php echo link_to(__('Profile'), array($sf_user->user, 'module' => 'user')) ?></li>
           <li><?php echo link_to(__('Log out'), array('module' => 'user', 'action' => 'logout')) ?></li>
-          <li><?php echo link_to(__('Requests'), array('module' => 'nlwCirculationPlugin', 'action' => 'listRequests')) ?></li>
+				  <li><?php echo link_to(__('Requests'), array('module' => 'nlwCirculationPlugin', 'action' => 'listRequests')) ?></li>
           <li><?php echo link_to(__('Search Request'), array('module' => 'nlwCirculationPlugin', 'action' => 'searchRequests')) ?></li>
         </ul>
 
