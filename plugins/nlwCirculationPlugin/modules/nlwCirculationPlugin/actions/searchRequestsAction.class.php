@@ -23,7 +23,13 @@ class nlwCirculationPluginSearchRequestsAction extends sfAction
     if(!$user->hasGroup(99)) {
       $this->redirect('@homepage');
     }
-    
+ 
+		$this->statuses = array();
+		foreach (QubitRequestStatus::getAll() as $s) {
+			$this->statuses[$s->getId()] = $s->getStatus(); 
+		}
+
+   
     $path = $request->getPathInfo();
     $this->qubitRequests = QubitRequest::getAll();
   }

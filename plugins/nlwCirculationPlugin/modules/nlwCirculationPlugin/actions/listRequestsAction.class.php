@@ -33,10 +33,19 @@ class nlwCirculationPluginListRequestsAction extends sfAction
 		} else {
 			$this->request_statuses = array(1,2,3);
 		}
+		if ($request->getPostParameter('expired')) {
+			$this->expired = $request->getPostParameter('expired');
+		} else {
+			$this->expired = array(false);
+		}
 		
+
 		$criteria = new Criteria;
 		foreach ($this->request_statuses as $request_status) {
     	$criteria->addOr(QubitRequest::STATUS, $request_status);
+		}
+		if (!$this->expired[0] == 'true') {
+			$criteria->addOr(QubitRequest::EXPIRY_DATE, date("Y-m-d H:i:s"), Criteria::GREATER_THAN);
 		}
 
 		$this->statuses = array();

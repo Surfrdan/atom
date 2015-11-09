@@ -37,7 +37,7 @@
     <label for="location"><?php echo __('Location') ?></label>
     <select id="location" name="location"  >
       <?php foreach ($physicalObjects as $l) {?>
-      <option value="<?php echo $l->getId(); ?>"> <?php echo $l->getLabel(); ?></option>
+      <option value="<?php echo $l->id; ?>"> <?php echo $l->label; ?></option>
       <?php } ?>
     </select>
 

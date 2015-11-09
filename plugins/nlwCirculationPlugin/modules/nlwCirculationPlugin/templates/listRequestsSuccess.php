@@ -30,6 +30,11 @@
 						<input type="checkbox" name="request_statuses[]" value="4" <?php if (in_array(4, $sf_data->getRaw('request_statuses'))) { echo "checked"; } ?>>
 						<label for="returned"><?php echo __('Returned to Stacks') ?></label>
 					</li>
+					<li>
+						<input type="checkbox" name="expired[]" value="true" <?php if (in_array(true, $sf_data->getRaw('expired'))) { echo "checked"; } ?>>
+						<label for="returned"><?php echo __('Expired') ?></label>
+					</li>
+
 				</ul>
 
 		<input type="submit">

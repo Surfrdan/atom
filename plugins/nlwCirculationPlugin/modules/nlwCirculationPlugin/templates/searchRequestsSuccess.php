@@ -10,9 +10,16 @@
 
 <?php slot('content') ?>
 
-<form action="<?php echo url_for(array($resource, 'module' => 'nlwCirculationPlugin', 'action' => 'editRequest')) ?>" method="post">
+<form action="<?php echo url_for(array($resource, 'module' => 'nlwCirculationPlugin', 'action' => 'searchRequests')) ?>" method="post">
   <fieldset id="requestInformation">
     <legend><?php echo __('Search Requests') ?></legend>
+		<label for="status"><?php echo __('Status') ?></label>
+    <select id="status" name="status"  >
+      <?php foreach ($statuses as $s=>$v) {?>
+      <option value="<?php echo $s; ?>" <?php if($s == $_POST['status']) { echo "selected"; }?>><?php echo $v; ?></option>
+      <?php } ?>
+    </select>
+ 
     <label for="material"><?php echo __('Request ID') ?></label>
     <input type="text" id="request_id" name="request_id" value="" autofocus />
     <input type="submit" value ="<?php echo __('Submit Request'); ?>"/>
