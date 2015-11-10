@@ -20,18 +20,23 @@ class nlwCirculationPluginSearchRequestsAction extends sfAction
   public function execute($request)
   {
     $user = $this->getUser();
-    if(!$user->hasGroup(99)) {
-      $this->redirect('@homepage');
+    if(!$user->isAuthenticated()) {
+			QubitAcl::forwardUnauthorized();
     }
  
 		$this->statuses = array();
 		foreach (QubitRequestStatus::getAll() as $s) {
 			$this->statuses[$s->getId()] = $s->getStatus(); 
 		}
-
-   
+  
+		if ($request->getPostParameter('request_id')) {
+			$criteria = new Criteria;
+    	$criteria->add(QubitRequest::ID, $request->getPostParameter('request_id'));
+			$this->qubitRequest = QubitRequest::get($criteria)->__get(0);
+	    $this->qubitRequest->setStatus($request->getPostParameter('status'));
+			$this->qubitRequest->save();
+		}
     $path = $request->getPathInfo();
-    $this->qubitRequests = QubitRequest::getAll();
   }
   
 }
