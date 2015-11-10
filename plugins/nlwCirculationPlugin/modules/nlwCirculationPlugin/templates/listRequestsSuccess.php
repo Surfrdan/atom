@@ -37,7 +37,7 @@
 
 				</ul>
 				<input type="hidden" value="true" name="deliberate">
-		<input type="submit">
+		<input type="submit" class="request-button">
   </fieldset>
 </form>
     <table id="requestTable" name="requestTable" class="tablesorter">
