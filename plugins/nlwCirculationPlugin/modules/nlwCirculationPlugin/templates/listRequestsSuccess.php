@@ -7,7 +7,7 @@
 <?php end_slot() ?>
 
 <?php slot('content') ?>
-<form action="<?php echo url_for(array('module' => 'nlwCirculationPlugin', 'action' => 'listRequests')) ?>" method="post">
+<form action="<?php echo url_for(array('module' => 'nlwCirculationPlugin', 'action' => 'listRequests')) ?>" method="get">
   <fieldset id="request_statuses">
 				<ul class="checkbox-grid">
 					<li>
@@ -36,7 +36,7 @@
 					</li>
 
 				</ul>
-
+				<input type="hidden" value="true" name="deliberate">
 		<input type="submit">
   </fieldset>
 </form>

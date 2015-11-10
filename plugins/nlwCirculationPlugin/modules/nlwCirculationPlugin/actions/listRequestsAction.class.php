@@ -28,24 +28,32 @@ class nlwCirculationPluginListRequestsAction extends sfAction
       QubitAcl::forwardUnauthorized();
     }
 
-    if ($request->getPostParameter('request_statuses')) {
-			$this->request_statuses = $request->getPostParameter('request_statuses');
-		} else {
-			$this->request_statuses = array(1,2,3);
-		}
-		if ($request->getPostParameter('expired')) {
-			$this->expired = $request->getPostParameter('expired');
+		if ($request->getGetParameter('expired')) {
+			$this->expired = $request->getGetParameter('expired');
 		} else {
 			$this->expired = array(false);
 		}
-		
+		if ($request->getGetParameter('request_statuses')) {
+			$this->request_statuses = $request->getGetParameter('request_statuses');
+		} else {
+			$deliberate = $request->getGetParameter('deliberate');
+			if (!$deliberate) {
+				$this->request_statuses = array(1,2,3);
+			}
+		}
 
-		$criteria = new Criteria;
+   	$criteria = new Criteria;
 		foreach ($this->request_statuses as $request_status) {
     	$criteria->addOr(QubitRequest::STATUS, $request_status);
 		}
-		if (!$this->expired[0] == 'true') {
-			$criteria->addOr(QubitRequest::EXPIRY_DATE, date("Y-m-d H:i:s"), Criteria::GREATER_THAN);
+		if (!isset($this->request_statuses)) {
+			$criteria->add(QubitRequest::STATUS, Criteria::ISNULL);
+		}
+
+		if ($this->expired[0] == 'true') {
+			$criteria->addOr(QubitRequest::EXPIRY_DATE, date("Y-m-d H:i:s"), Criteria::LESS_THAN);
+		} else {
+			$criteria->add(QubitRequest::EXPIRY_DATE, date("Y-m-d H:i:s"), Criteria::GREATER_THAN);
 		}
 
 		$this->statuses = array();
@@ -54,12 +62,25 @@ class nlwCirculationPluginListRequestsAction extends sfAction
 		}
 
     $path = $request->getPathInfo();
-	
+			
     $this->pager = new QubitPager('QubitRequest');
     $this->pager->setCriteria($criteria);
     $this->pager->setMaxPerPage(5);
     $this->pager->setPage($request->page);
-    $this->qubitRequests = $this->pager->getResults();
+		
+		foreach ($request->getGetParameters() as $param => $value) {
+			$this->pager->setParameter($param, $value);
+		}
+
+		if ($request->getGetParameter('request_statuses')) {
+			$this->request_statuses = $request->getGetParameter('request_statuses');
+		} else {
+			$deliberate = $request->getGetParameter('deliberate');
+			if (!$deliberate) {
+				$this->request_statuses = array(1,2,3);
+			}
+		}
+		$this->qubitRequests = $this->pager->getResults();
   }
   
 }

@@ -50,9 +50,11 @@ class nlwCirculationPlugin {
     $criteria->add(QubitRelation::OBJECT_ID, $objectId);
     $pObjects = QubitPhysicalObject::get($criteria);
 		$returnObject = new stdClass();
+		$returnObject->referenceCode = $resource->getIdentifier();
 		$objects = array();
 
 		if (!$pObjects) {
+			$returnObject->inherited = true;
 			if ($resource->getAncestors()->orderBy('lft')->count == 0) {
 				throw new Exception('No location info found for object hierachy');
 			} else {
@@ -102,6 +104,7 @@ class nlwCirculationPlugin {
     $requestSlip[17] = $requestId;
     $requestSlip[21] = $resource->slug;
 		$requestSlip[22] = $physicalObject->getName();
+		if ($physicalObject->inherited) { $requestSlip[22] .= " ({$physicalObject->referenceCode})"; } 
     $requestSlip[26] = date("d-M-Y",strtotime($qubitRequest->getCollectionDate()));
     $requestSlip[27] = date("H:i:s",strtotime($qubitRequest->getCollectionDate()));
 		$requestSlip[39] = 'ATOM';

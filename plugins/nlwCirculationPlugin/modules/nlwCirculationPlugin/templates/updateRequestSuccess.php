@@ -8,6 +8,4 @@
 
 <?php slot('content') ?>
 
-<?php echo $sf_request->getParameter('shib_user'); ?>
-
 <?php end_slot() ?>
