@@ -36,10 +36,9 @@ class nlwCirculationPlugin {
 		return $physicalObject;
 	}
 
-	static function getPhysicalObjects($objectId) {
-	
+	static function getPhysicalObjects($objectId, $objects = array()) {
 		$archiveCriteria = new Criteria;
-    $archiveCriteria->add(QubitObject::ID, $objectId);
+    $archiveCriteria->add(QubitInformationObject::ID, $objectId);
     $resource = QubitInformationObject::get($archiveCriteria)->__get(0);	
 		
 		$criteria = new Criteria;
@@ -49,36 +48,31 @@ class nlwCirculationPlugin {
     $criteria->add(QubitRelation::TYPE_ID, QubitTerm::HAS_PHYSICAL_OBJECT_ID);
     $criteria->add(QubitRelation::OBJECT_ID, $objectId);
     $pObjects = QubitPhysicalObject::get($criteria);
-		$returnObject = new stdClass();
-		$returnObject->referenceCode = $resource->getIdentifier();
-		$objects = array();
-
-		if (!$pObjects) {
-			$returnObject->inherited = true;
-			if ($resource->getAncestors()->orderBy('lft')->count == 0) {
+		if ($pObjects->count() == 0) {
+			if ($resource->getAncestors()->orderBy('lft')->count() == 0) {
 				throw new Exception('No location info found for object hierachy');
 			} else {
-				self::getPhysicalObjects($resource->getAncestors()->orderBy('lft')->__get(0)->id);
+				return self::getPhysicalObjects($resource->getAncestors()->orderBy('lft')->__get(1)->id, $objects);
 			}
 		}
-
 		foreach($pObjects as $physicalObject) { 
+			
+			$returnObject = new stdClass();
+			$returnObject->referenceCode = $resource->getIdentifier();
+
 			$returnObject->location = $physicalObject->getLocation();
 			if (empty($returnObject->location)) { 
-				self::getPhysicalObjects($resource->getAncestors()->orderBy('lft')->__get(0)->id);
+				return self::getPhysicalObjects($resource->getAncestors()->orderBy('lft')->__get(1)->id, $objects);
 			}
 			$returnObject->name = $physicalObject->getName();
-			if (empty($returnObject->name)) { 
-				self::getPhysicalObjects($resource->getAncestors()->orderBy('lft')->__get(0)->id);
-			}
 			$returnObject->label = $physicalObject->getLabel();
 			if (empty($returnObject->label)) { 
-				self::getPhysicalObjects($resource->getAncestors()->orderBy('lft')->__get(0)->id);
+				return self::getPhysicalObjects($resource->getAncestors()->orderBy('lft')->__get(1)->id, $objects);
 			}
 			$returnObject->id = $physicalObject->getId();
 			$objects[] = $returnObject;
 		} 
-		return $objects;
+		return array_filter($objects);
 	}
 
   static function printRequest($requestId) {
@@ -103,8 +97,7 @@ class nlwCirculationPlugin {
     $requestSlip[15] = 'DE/SOUTH';
     $requestSlip[17] = $requestId;
     $requestSlip[21] = $resource->slug;
-		$requestSlip[22] = $physicalObject->getName();
-		if ($physicalObject->inherited) { $requestSlip[22] .= " ({$physicalObject->referenceCode})"; } 
+		$requestSlip[22] = $physicalObject->getName() . " (" . $resource->getIdentifier() . ")";
     $requestSlip[26] = date("d-M-Y",strtotime($qubitRequest->getCollectionDate()));
     $requestSlip[27] = date("H:i:s",strtotime($qubitRequest->getCollectionDate()));
 		$requestSlip[39] = 'ATOM';
@@ -121,7 +114,7 @@ class nlwCirculationPlugin {
     $ipp->setPrinterURI("/printers/AV007");
 	  $ipp->setLog('/tmp/printipp','file',1);
     $ipp->setData($printerSlip);
-    //echo "<pre>"; var_dump($requestSlip); echo "</pre>";
-		$ipp->printJob();
+    echo "<pre>"; var_dump($requestSlip); echo "</pre>";
+		//$ipp->printJob();
 	}
 }

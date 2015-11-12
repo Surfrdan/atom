@@ -65,7 +65,7 @@ class nlwCirculationPluginListRequestsAction extends sfAction
 			
     $this->pager = new QubitPager('QubitRequest');
     $this->pager->setCriteria($criteria);
-    $this->pager->setMaxPerPage(5);
+    $this->pager->setMaxPerPage(100);
     $this->pager->setPage($request->page);
 		
 		foreach ($request->getGetParameters() as $param => $value) {

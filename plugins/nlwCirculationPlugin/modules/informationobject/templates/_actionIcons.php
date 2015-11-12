@@ -2,7 +2,7 @@
   <ul>
 		<?php if ($sf_context->getConfiguration()->isPluginEnabled('nlwCirculationPlugin')): ?>
 		  <?php if (nlwCirculationPlugin::requestAllowed($resource)): ?>
-      <li><div class="request-button"><?php echo link_to(__('Request this item'), array($resource, 'module' => 'nlwCirculationPlugin', 'action' => 'request')) ?></div></li>
+      <li><div class="request-button"><?php echo link_to(__('Request'), array($resource, 'module' => 'nlwCirculationPlugin', 'action' => 'request')) ?></div></li>
       <li>
         <a href="<?php echo url_for(array($resource, 'module' => 'informationobject', 'action' => 'reports')) ?>">
           <i class="icon-print"></i>

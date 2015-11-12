@@ -12,6 +12,9 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<?php if (sfContext::getInstance()->user->getCulture() == "cy") { ?>
+<script src="//raw.githubusercontent.com/jquery/jquery-ui/master/ui/i18n/datepicker-cy-GB.js"></script>
+<?php } ?>
 <script>
   $(function() {
     $( "#collection_date" ).datepicker({
@@ -19,13 +22,12 @@
       constrainInput: false,
       maxDate: "+7",
       minDate: "-0",
-      dateFormat: "yy-mm-dd"
+      dateFormat: "yy-mm-dd",
     });
   });
 </script>
 <form action="<?php echo url_for(array($resource, 'module' => 'nlwCirculationPlugin', 'action' => 'makeRequest', 'slug' => $slug)) ?>" method="post">
   <fieldset id="requestInformation">
-    <legend><?php echo __('Request Information') ?></legend>
 		<?php $user = $sf_data->getRaw('user'); ?>
 		<?php if ($user->getAttribute('employeeType') == 'STAFF') { ?>
     <label for="patron_barcode"><?php echo __('Patron Barcode'); ?></label>
@@ -49,7 +51,7 @@
     <label for="expiry_date"><?php echo __('Expiry Date') ?></label>
     <input type="date" id="expiry_date" name="expiry_date" readonly value="<?php echo date("Y-m-d",strtotime("+1 week")); ?>" />
  
-    <input type="submit" value ="<?php echo __('Submit Request'); ?>" class="request-button" />
+    <input type="submit" value ="<?php echo __('Request'); ?>" class="request-button" />
   </fieldset>
   
 </form>
