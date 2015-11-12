@@ -47,7 +47,9 @@ class nlwCirculationPluginMakeRequestAction extends sfAction
     $this->qubitRequest->setCollectionDate($request->getParameter('collection_date'));
     $this->qubitRequest->setPatronNotes($request->getParameter('notes'));
     $this->qubitRequest->setItemTitle($this->resource->getTitle());
-		$this->qubitRequest->setItemDate($this->event->getDate());
+		if (isset($this->event)) {
+			$this->qubitRequest->setItemDate($this->event->getDate());
+		}
 		$this->qubitRequest->setItemCreator($this->creator->getAuthorizedFormOfName());
     $this->qubitRequest->setCollectionTitle($this->resource->getCollectionRoot()->getTitle());
 	  $this->qubitRequest->save();

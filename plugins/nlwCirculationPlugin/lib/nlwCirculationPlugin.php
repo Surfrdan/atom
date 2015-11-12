@@ -84,6 +84,11 @@ class nlwCirculationPlugin {
     $archiveCriteria->add(QubitObject::ID, $qubitRequest->getObjectId());
     $resource = QubitInformationObject::get($archiveCriteria)->__get(0);
 		$physicalObject = self::getPhysicalObject($qubitRequest->getPhysicalObjectId());
+
+		$slugCriteria = new Criteria;
+		$slugCriteria->add(QubitSlug::OBJECT_ID, $qubitRequest->getObjectId());
+		$slugObject = QubitSlug::get($slugCriteria)->__get(0);		
+
     $requestSlip = array_pad(array(), 59, '');
     $requestSlip[2] = $qubitRequest->getPatronBarcode();
     $requestSlip[3] = $qubitRequest->getPatronType();
@@ -92,7 +97,7 @@ class nlwCirculationPlugin {
     $requestSlip[8] = $qubitRequest->getPatronNotes();
     $requestSlip[10] = date("H:i:s",strtotime($qubitRequest->getCreatedAt()));
     $requestSlip[12] = date("d-M-Y",strtotime($qubitRequest->getCreatedAt()));
-    $requestSlip[13] = QubitSlug::getByObjectId($qubitRequest->getObjectId())->getId();
+    $requestSlip[13] = $slugObject->getId();
     $requestSlip[14] = 'PrintyddSlips';
     $requestSlip[15] = 'DE/SOUTH';
     $requestSlip[17] = $requestId;
@@ -114,7 +119,7 @@ class nlwCirculationPlugin {
     $ipp->setPrinterURI("/printers/AV007");
 	  $ipp->setLog('/tmp/printipp','file',1);
     $ipp->setData($printerSlip);
-    echo "<pre>"; var_dump($requestSlip); echo "</pre>";
-		//$ipp->printJob();
+    //echo "<pre>"; var_dump($requestSlip); echo "</pre>";
+		$ipp->printJob();
 	}
 }
